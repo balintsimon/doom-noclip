@@ -1,5 +1,10 @@
+body{
+    background-image: url("https://store-images.s-microsoft.com/image/apps.55453.64809307044061818.61b1d7a1-2194-4bcc-b9a1-d6f87fcc5aed.84f3d2a4-b07d-469b-862f-77488558d157?mode=scale&q=90&h=1080&w=1920&background=%23FFFFFF");
+    background-size: cover;
+}
+
 .game-display {
-  background: black;
+
   color: white;
   width: 95%;
   height: 70%;
@@ -9,7 +14,11 @@
   left: 50%;
   padding: 20px;
   overflow: auto;
-    cursor:crosshair;
+  cursor:crosshair;
+    border: solid;
+    background-size: cover;
+    background-position: bottom;
+    background-image: url("cropped.jpg");
 }
 
 .gun{
@@ -24,14 +33,16 @@
 }
 
 .game-border{
+
   position: fixed;
   background: white;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   height: 800px;
   width: 1200px;
   margin: 0 auto;
   padding: 20px;
   overflow: auto;
+    background: none;
 }
