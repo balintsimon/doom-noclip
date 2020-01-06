@@ -1,4 +1,3 @@
-console.log('JE')
 const body = document.getElementById('teszt')
 
 
@@ -11,7 +10,7 @@ body.addEventListener('mousedown',function () {
 body.addEventListener('mouseup',function () {
     document.getElementById('gun').setAttribute('src', 'static/gun_1.png')
 
-},true)
+},true);
 
 window.onmousemove = function (e) {
 
@@ -19,7 +18,7 @@ window.onmousemove = function (e) {
         y = e.clientY;
     document.getElementById('hello').innerText = x
 
-    if ( x > 370 && x < 1408 ){
+    if ( x > 370 && x < 1348 ){
     document.getElementById('gun').style.left = (x-370) + 'px';
     }
 };
