@@ -38,22 +38,24 @@ function startGame() {
 
 }
 
-function shootGun() { // TODO: Fix weird frame delay when shooting
+function shootGun() {
     const gun = document.querySelector('.gun');
     let ammo = Number(this.dataset.ammo);
-    gun.setAttribute('src', '/static/images/pistolShoot.gif');
     ammo--;
     this.setAttribute('data-ammo', `${ammo}`);
     this.removeEventListener('click', shootGun);
     if (ammo === 0) {
-        reloadGun(gun, this);
+        gun.setAttribute('src', '/static/images/pistolShoot.gif');
+        setTimeout(() => {
+            reloadGun(gun, this);
+        }, 250);
     } else {
+        gun.setAttribute('src', '/static/images/pistolShoot.gif');
         setTimeout(() => {
         gun.setAttribute('src', '/static/images/pistol.gif');
         this.addEventListener('click', shootGun);
-    }, 260);
+    }, 250);
     }
-    console.log(ammo);
 }
 
 function reloadGun(gun, gameWindow) {
@@ -62,7 +64,7 @@ function reloadGun(gun, gameWindow) {
         gun.setAttribute('src', '/static/images/pistol.gif');
         gameWindow.addEventListener('click', shootGun);
         gameWindow.setAttribute('data-ammo', '6');
-    }, 1620);
+    }, 1370);
 }
 
 startGame();
