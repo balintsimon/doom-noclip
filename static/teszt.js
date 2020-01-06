@@ -15,7 +15,7 @@ window.onmousemove = function (e) {
         y = e.clientY;
     document.getElementById('hello').innerText = x
 
-    if ( x > 300 && x < 1077 ){
+    if ( x > 370 && x < 1408 ){
     document.getElementById('gun').style.left = (x-370) + 'px';
     }
 };
