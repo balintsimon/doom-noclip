@@ -14,6 +14,7 @@ body.addEventListener('mousedown',function () {
 body.addEventListener('mouseup',function () {
     document.getElementById('gun').setAttribute('src', 'static/gun_1.png');
     snd.pause();
+    snd.currentTime = 0;
 },true);
 
 
@@ -37,6 +38,7 @@ let play_music = function() {
 
 let stop_music = function() {
     music.pause();
+    music.currentTime = 0;
 };
 
 let music_button = document.getElementById("music-button");
@@ -47,10 +49,12 @@ music_button.addEventListener("click", function () {
         music_is_playing = 0;
         console.log(music_is_playing);
         stop_music();
+        music_button.textContent = "Restart music";
     } else if (music_is_playing === 0) {
         music_is_playing = 1;
         console.log(music_is_playing);
         play_music();
+        music_button.textContent = "Stop music";
     }
 });
 
