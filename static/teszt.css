@@ -35,3 +35,8 @@
   padding: 20px;
   overflow: auto;
 }
+
+#music-button {
+    color: red;
+    padding: 1em;
+}
