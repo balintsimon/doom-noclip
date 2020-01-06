@@ -9,7 +9,8 @@
   left: 50%;
   padding: 20px;
   overflow: auto;
-    }
+    cursor:crosshair;
+}
 
 .gun{
     position: fixed;
