@@ -35,6 +35,7 @@ function startGame() {
     const gameWindow = document.querySelector('.game-display');
     gameWindow.setAttribute('data-ammo', '6');
     gameWindow.addEventListener('click', shootGun);
+    displayAmmo(gameWindow)
 
 }
 
@@ -56,6 +57,14 @@ function shootGun() {
         this.addEventListener('click', shootGun);
     }, 250);
     }
+    displayAmmo(this);
+}
+
+function displayAmmo(gameWindow) {
+    const ammo = Number(gameWindow.dataset.ammo);
+}
+
+function ammoTemplate() {
 }
 
 function reloadGun(gun, gameWindow) {
