@@ -1,58 +1,44 @@
 const body = document.getElementById('teszt');
 var machineGunHitIntervalTimer = false;
 
-//sound related
-let pistol_sound = new Audio("static/dspistol.wav");
-let reload_pistol = new Audio("static/reload_gun2.mp3");
-let machinegun_sound = new Audio("static/gun2.mp3");
-let reload_machinegun = new Audio("static/gun_cock_slow.mp3");
-let cock_machinegun = new Audio("static/machine_gun_clip_in.mp3");
+//sound and music related
+let pistol_sound = new Audio("static/sound/dspistol.wav");
+let reload_pistol = new Audio("static/sound/reload_gun2.mp3");
+let machinegun_sound = new Audio("static/sound/gun2.mp3");
+let reload_machinegun = new Audio("static/sound/gun_cock_slow.mp3");
+let cock_machinegun = new Audio("static/sound/machine_gun_clip_in.mp3");
 
-let play_gun_sound_once = function(sound) {
+let music = new Audio("static/sound/doom_gate_music.mp3");
+let music_button = document.getElementById("music-button");
+let music_is_playing = 0;
+
+let play_sound_once = function(sound) {
     sound.play();
     sound.currentTime = 0;
 };
 
-let play_continous_gun_sound = function(sound) {
+let play_continous_sound = function(sound) {
     sound.loop = true;
     sound.play();
     sound.currentTime = 0;
 };
 
-let stop_gun_sound = function(sound) {
+let stop_sound = function(sound) {
     sound.pause();
     sound.currentTime = 0;
 };
 
-//music related
-let music = new Audio("static/doom_gate_music.mp3");
-let play_music = function() {
-    music.loop = true;
-    music.play();
-};
-
-let stop_music = function() {
-    music.pause();
-    music.currentTime = 0;
-};
-
-let music_button = document.getElementById("music-button");
-let music_is_playing = 0;
-
 music_button.addEventListener("click", function () {
-    if (music_is_playing === 1) {
-        music_is_playing = 0;
-        console.log(music_is_playing);
-        stop_music();
-        music_button.textContent = "Restart music";
-    } else if (music_is_playing === 0) {
+    if (music_is_playing === 0) {
         music_is_playing = 1;
-        console.log(music_is_playing);
-        play_music();
+        play_continous_sound(music);
         music_button.textContent = "Stop music";
+    } else {
+        music_is_playing = 0;
+        stop_sound(music);
+        music_button.textContent = "Restart music";
     }
 });
-
 
 // gun stats
 //image, clip_size, fire_rate, max_clip, damage, reload_time, fire type
@@ -63,8 +49,6 @@ gunStats[2] = ['images/pistol', 6, 100, 6, 20, 2000,'click'];
 let shooting = false;
 let bulletTaking = false;
 let reloading = false;
-
-
 
 function startGame() {
     const gameWindow = document.querySelector('.game-display');
@@ -178,7 +162,7 @@ function shootGun() {
     const pistol = document.querySelector('.gun');
     gunStats[gun][1] -= 1;
     document.getElementById('bullet_indicator').innerText = gunStats[gun][1];
-    play_gun_sound_once(pistol_sound);
+    play_sound_once(pistol_sound);
     this.removeEventListener('click', shootGun);
     if (gunStats[gun][1] === 0) {
         pistol.setAttribute('src', '/static/images/pistolShoot.gif');
@@ -206,7 +190,7 @@ function startShooting(){
     if (reloading){return}
     document.getElementById('gun').setAttribute('src', "static/" + gunStats[gun][0] + ".gif");
     shooting = true;
-    play_continous_gun_sound(machinegun_sound);
+    play_continous_sound(machinegun_sound);
     gunStats[gun][1] -= 1;
     document.getElementById('bullet_indicator').innerText = gunStats[gun][1];
     if (gunStats[gun][1] <= 0){startReloading()}
@@ -223,8 +207,8 @@ function startReloading() {
     gunStats[gun][1] = gunStats[gun][3];
     body.style.cursor = 'wait';
     document.getElementById('bullet_indicator').innerText = 'Reloading';
-    play_gun_sound_once(reload_machinegun);
-    play_gun_sound_once(cock_machinegun);
+    play_sound_once(reload_machinegun);
+    play_sound_once(cock_machinegun);
     var reloadTimer = setInterval(function () {
         body.style.cursor = 'crosshair';
         reloading = false;
@@ -236,7 +220,7 @@ function startReloading() {
 function stopShooting(){
     document.getElementById('gun').setAttribute('src', "static/" + gunStats[gun][0] + ".png");
     shooting = false;
-    stop_gun_sound(machinegun_sound);
+    stop_sound(machinegun_sound);
     try{clearInterval(bulletTaking)}catch {};
     try{clearInterval(machineGunHitIntervalTimer)}catch {};
 }
@@ -256,7 +240,7 @@ window.onmousemove = function (e) {
 };
 
 function reloadGun(pistol, gameWindow) {
-    play_gun_sound_once(reload_pistol);
+    play_sound_once(reload_pistol);
     pistol.setAttribute('src', '/static/images/pistolReload.gif');
     setTimeout(() => {
         pistol.setAttribute('src', '/static/images/pistol.gif');
