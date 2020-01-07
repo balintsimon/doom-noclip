@@ -10,18 +10,16 @@ body{
 }
 
 .game-display {
-  background: black;
-  color: white;
-  width: 95%;
-  height: 90%;
-  transform: translate(-50%, -50%);
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  padding: 20px;
-  overflow: auto;
+    color: white;
+    width: 95%;
+    height: 90%;
+    transform: translate(-50%, -50%);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    padding: 20px;
     overflow: hidden;
-  cursor:crosshair;
+    cursor:url("/static/images/crosshair.png"), auto;
     border: solid;
     background-size: cover;
     background-position: bottom;
