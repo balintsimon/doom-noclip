@@ -12,16 +12,11 @@ let music = new Audio("static/sound/doom_gate_music.mp3");
 let music_button = document.getElementById("music-button");
 let music_is_playing = 0;
 
-let play_sound_once = function(sound) {
+function play_sound(sound, loop) {
+    sound.loop = loop;
     sound.play();
     sound.currentTime = 0;
-};
-
-let play_continous_sound = function(sound) {
-    sound.loop = true;
-    sound.play();
-    sound.currentTime = 0;
-};
+}
 
 let stop_sound = function(sound) {
     sound.pause();
@@ -31,7 +26,7 @@ let stop_sound = function(sound) {
 music_button.addEventListener("click", function () {
     if (music_is_playing === 0) {
         music_is_playing = 1;
-        play_continous_sound(music);
+        play_sound(music, true);
         music_button.textContent = "Stop music";
     } else {
         music_is_playing = 0;
@@ -162,7 +157,7 @@ function shootGun() {
     const pistol = document.querySelector('.gun');
     gunStats[gun][1] -= 1;
     document.getElementById('bullet_indicator').innerText = gunStats[gun][1];
-    play_sound_once(pistol_sound);
+    play_sound(pistol_sound, false);
     this.removeEventListener('click', shootGun);
     if (gunStats[gun][1] === 0) {
         pistol.setAttribute('src', '/static/images/pistolShoot.gif');
@@ -190,7 +185,7 @@ function startShooting(){
     if (reloading){return}
     document.getElementById('gun').setAttribute('src', "static/" + gunStats[gun][0] + ".gif");
     shooting = true;
-    play_continous_sound(machinegun_sound);
+    play_sound(machinegun_sound, true);
     gunStats[gun][1] -= 1;
     document.getElementById('bullet_indicator').innerText = gunStats[gun][1];
     if (gunStats[gun][1] <= 0){startReloading()}
@@ -207,8 +202,8 @@ function startReloading() {
     gunStats[gun][1] = gunStats[gun][3];
     body.style.cursor = 'wait';
     document.getElementById('bullet_indicator').innerText = 'Reloading';
-    play_sound_once(reload_machinegun);
-    play_sound_once(cock_machinegun);
+    play_sound(reload_machinegun, false);
+    play_sound(cock_machinegun, false);
     var reloadTimer = setInterval(function () {
         body.style.cursor = 'crosshair';
         reloading = false;
@@ -240,7 +235,7 @@ window.onmousemove = function (e) {
 };
 
 function reloadGun(pistol, gameWindow) {
-    play_sound_once(reload_pistol);
+    play_sound(reload_pistol, false);
     pistol.setAttribute('src', '/static/images/pistolReload.gif');
     setTimeout(() => {
         pistol.setAttribute('src', '/static/images/pistol.gif');
