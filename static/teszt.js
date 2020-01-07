@@ -1,8 +1,8 @@
-const body = document.getElementById('teszt')
+const body = document.getElementById('teszt');
 let gun = 2;
 let gunStats = [];
-gunStats[1] = ['gun_1', 30, 100,30,5,2000, 'mousedown']
-gunStats[2] = ['images/pistol',6,100,6,20,2000,'click']
+gunStats[1] = ['gun_1', 30, 100,30,5,2000, 'mousedown'];
+gunStats[2] = ['images/pistol',6,100,6,20,2000,'click'];
 let shooting = false;
 let bulletTaking = false;
 let reloading = false;
@@ -23,18 +23,28 @@ function startGame() {
 
 window.onkeydown = function (e) {
     try{
-        var key = Number(e.key)
+        const key = Number(e.key);
         if ( gunStats[key]){
             if (reloading){return}
-            gun = key
+            if (key == gun){return}
+            gun = key;
             loadGun()
         }
     }catch{}
 }
 
 function loadGun() {
-    document.getElementById('gun').setAttribute('src', 'static/' + gunStats[gun][0] + '.png')
-    document.getElementById('bullet_indicator').innerText = gunStats[gun][1]
+    document.querySelector('.gun').classList.toggle('gun-switch');
+    reloading = true;
+    setTimeout(() => {
+        document.getElementById('gun').setAttribute('src', 'static/' + gunStats[gun][0] + '.png');
+        document.getElementById('bullet_indicator').innerText = gunStats[gun][1];
+        document.querySelector('.gun').classList.toggle('gun-switch');
+        setTimeout(function () {
+            reloading = false
+        },1000)
+
+    }, 1000);
 }
 
 function holdShooting() {
@@ -44,7 +54,7 @@ function holdShooting() {
 }
 
 function shootGun() {
-    if ( gunStats[gun][6] === 'mousedown'){return}
+    if ( gunStats[gun][6] === 'mousedown' || reloading ){return}
     const pistol = document.querySelector('.gun');
     gunStats[gun][1] -= 1;
     document.getElementById('bullet_indicator').innerText = gunStats[gun][1];
@@ -74,19 +84,19 @@ function holdStopShooting() {
 function startShooting(){
     if (reloading){return}
     document.getElementById('gun').setAttribute('src', "static/" + gunStats[gun][0] + ".gif")
-    shooting = true
+    shooting = true;
+    gunStats[gun][1] -= 1;
+    document.getElementById('bullet_indicator').innerText = gunStats[gun][1];
+    if (gunStats[gun][1] <= 0){startReloading()}
     bulletTaking = setInterval( function () {
         gunStats[gun][1] -= 1;
         document.getElementById('bullet_indicator').innerText = gunStats[gun][1];
-        document.getElementById('tdteszt').onmouseover = function () {
-            this.innerText = "Assdsda"
-        };
         if (gunStats[gun][1] <= 0){startReloading()}
     }, gunStats[gun][2])
 }
 
 function startReloading() {
-    reloading = true
+    reloading = true;
     stopShooting()
     gunStats[gun][1] = gunStats[gun][3]
     body.style.cursor = 'wait';
@@ -113,7 +123,7 @@ document.getElementById('game-border').onmouseover = function(){try{stopShooting
 window.onmousemove = function (e) {
     var x = e.clientX,
         y = e.clientY;
-    if (x > 370 && x < 1348) {
+    if (x > 300 && x < 1500) {
         document.getElementById('gun').style.left = (x - 370) + 'px';
     } else {
         stopShooting()

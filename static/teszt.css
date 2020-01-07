@@ -20,6 +20,7 @@ body{
   left: 50%;
   padding: 20px;
   overflow: auto;
+    overflow: hidden;
   cursor:crosshair;
     border: solid;
     background-size: cover;
@@ -28,16 +29,30 @@ body{
 }
 
 .gun{
-    position: fixed;
+    position: absolute;
     bottom: 0;
+    transform: translateY(0%);
     -khtml-user-select: none;
     -o-user-select: none;
     -moz-user-select: none;
     -webkit-user-select: none;
     user-select: none;
     height: 200px;
+    transition: bottom 1s;
 }
 
+
+.gun-switch{
+    position: absolute;
+    bottom: -200px;
+    -khtml-user-select: none;
+    -o-user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    user-select: none;
+    height: 200px;
+    transition: bottom 1s;
+}
 .bullet{
     position: relative;
     top: 85%;
