@@ -81,9 +81,9 @@ window.onmousemove = function (e) {
     let gun_image = document.getElementById('gun');
     var x = e.clientX,
         y = e.clientY;
-    if (x > 300 && x < 1500 && gun === 1) {
+    if (x > 300 && x < 1300 && gun === 1) {
         gun_image.style.left = (x - 450) + 'px';
-    } else if (x > 300 && x < 1400 && gun === 2) {
+    } else if (x > 250 && x < 1100 && gun === 2) {
         gun_image.style.left = (x - 250) + 'px';
     } else {
         stopShooting()
