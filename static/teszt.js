@@ -1,13 +1,12 @@
-console.log('JE');
-
-const body = document.getElementById('teszt');
+const body = document.getElementById('teszt')
 
 //sound related stuff
 let pistol_sound = new Audio("static/dspistol.wav");
 let machinegun_sound = new Audio("static/gun2.mp3");
 
 let play_gun_sound = function(sound) {
-    setInterval(play_sound(sound), -1000);
+    play_sound(sound);
+    //setInterval(play_sound(sound), -1000);
 };
 
 let play_sound = function(sound) {
@@ -51,23 +50,74 @@ music_button.addEventListener("click", function () {
 });
 
 
+
+var gun = 1;
+const gunStats = [];
+// gunStats[weapon_id] = ['image_name', clip, shootingRate, maxClip, damage,reloadTime]
+gunStats[1] = ['gun_1', 30, 100,30,5,2000];
+var shooting = false;
+var bulletTaking = false;
+var reloading = false;
+
+var childs = document.getElementsByTagName('body')[0].children;
+for ( element of childs){
+    element.style.userSelect = 'none'
+}
+
 body.addEventListener('mousedown',function () {
-    body.style.backgroundColor = 'rgba(255,0,255,255)';
-    document.getElementById('gun').setAttribute('src', 'static/gun_1.gif');
-    play_gun_sound(machinegun_sound); //play gun sound
+    startShooting()
 },true);
 
 body.addEventListener('mouseup',function () {
-    document.getElementById('gun').setAttribute('src', 'static/gun_1.png');
-    stop_gun_sound(machinegun_sound); //stop gun sound
+    stopShooting()
 },true);
 
+function startShooting(){
+    if (reloading){return}
+    document.getElementById('gun').setAttribute('src', "static/" + gunStats[gun][0] + ".gif");
+    shooting = true;
+    play_gun_sound(machinegun_sound);
+    bulletTaking = setInterval( function () {
+        gunStats[gun][1] -= 1;
+        document.getElementById('bullet_indicator').innerText = gunStats[gun][1];
+        document.getElementById('tdteszt').onmouseover = function () {
+            this.innerText = "Assdsda"
+        };
+        if (gunStats[gun][1] <= 0){startReloading()}
+    }, gunStats[gun][2])
+}
+
+function startReloading() {
+    reloading = true;
+    stopShooting();
+    gunStats[gun][1] = gunStats[gun][3];
+    body.style.cursor = 'wait';
+    document.getElementById('bullet_indicator').innerText = 'Reloading';
+    var reloadTimer = setInterval(function () {
+        body.style.cursor = 'crosshair';
+        reloading = false;
+        document.getElementById('bullet_indicator').innerText = gunStats[gun][1]
+        clearInterval(reloadTimer)
+    }, gunStats[gun][5])
+}
+
+function stopShooting(){
+    document.getElementById('gun').setAttribute('src', "static/" + gunStats[gun][0] + ".png");
+    shooting = false;
+    stop_gun_sound(machinegun_sound);
+    try{clearInterval(bulletTaking)}catch {}
+}
+
+document.getElementById('gun').ondragstart = function() { return false; };
+
+document.getElementById('game-border').onmouseover = function(){try{stopShooting()}catch {
+}};
 
 window.onmousemove = function (e) {
 
     var x = e.clientX,
         y = e.clientY;
-    document.getElementById('hello').innerText = x;
+    //document.getElementById('bullet_indicator').innerText = x;
 
     if ( x > 370 && x < 1348 ){
     document.getElementById('gun').style.left = (x-370) + 'px';
