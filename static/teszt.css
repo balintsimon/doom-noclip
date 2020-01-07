@@ -74,10 +74,17 @@ body{
     background-size: cover;
 }
 
-#music-button {
-    color: red;
-    padding: 1em;
+.music-button{
+    position: absolute;
+    left: 5%;
 }
+
+#music-button {
+    color: white;
+    font-size: 50px;
+    cursor: pointer;
+}
+
 
 #enemy_test {
     position: fixed;

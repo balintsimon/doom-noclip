@@ -36,7 +36,7 @@ let stop_music = function() {
     music.currentTime = 0;
 };
 
-let music_button = document.getElementById("music-button");
+let music_button = document.querySelector(".music-button");
 let music_is_playing = 0;
 
 music_button.addEventListener("click", function () {
@@ -44,12 +44,14 @@ music_button.addEventListener("click", function () {
         music_is_playing = 0;
         console.log(music_is_playing);
         stop_music();
-        music_button.textContent = "Restart music";
+        music_button.innerHTML = "";
+        music_button.innerHTML = "<i id='music-button' class=\"fas fa-volume-off\"></i>"
     } else if (music_is_playing === 0) {
         music_is_playing = 1;
         console.log(music_is_playing);
         play_music();
-        music_button.textContent = "Stop music";
+        music_button.innerHTML = "";
+        music_button.innerHTML = "<i id='music-button' class=\"fas fa-volume-up\"></i>"
     }
 });
 
@@ -211,15 +213,15 @@ function startShooting(){
 }
 
 function startReloading() {
+    document.querySelector('.gun').classList.toggle('gun-switch');
     reloading = true;
     stopShooting();
     gunStats[gun][1] = gunStats[gun][3];
-    body.style.cursor = 'wait';
     document.getElementById('bullet_indicator').innerText = 'Reloading';
     play_gun_sound_once(reload_machinegun);
     play_gun_sound_once(cock_machinegun);
-    var reloadTimer = setInterval(function () {
-        body.style.cursor = 'crosshair';
+    const reloadTimer = setInterval(function () {
+        document.querySelector('.gun').classList.toggle('gun-switch');
         reloading = false;
         document.getElementById('bullet_indicator').innerText = gunStats[gun][1];
         clearInterval(reloadTimer)
@@ -241,7 +243,7 @@ document.getElementById('game-border').onmouseleave = function(){try{stopShootin
 window.onmousemove = function (e) {
     var x = e.clientX,
         y = e.clientY;
-    if (x > 300 && x < 1500) {
+    if (x > 300 && x < 1250) {
         document.getElementById('gun').style.left = (x - 370) + 'px';
     } else {
         stopShooting()
