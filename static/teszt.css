@@ -1,5 +1,6 @@
 body{
     height: 100%;
+    background-image: url("/static/images/background.png");
 }
 
 #bullet_indicator{
@@ -23,7 +24,6 @@ body{
    background-image: url("cropped.jpg");
     border-radius: 5% / 80%;
     box-shadow: 1px 1px 20px;
-    opacity: 0.9;
     border: 6px solid black;
 }
 
@@ -62,7 +62,7 @@ body{
 
 .game-border{
   position: absolute;
-  top: 50%;
+  top: 57.5%;
   left: 50%;
   transform: translate(-50%, -50%);
   height: 800px;
@@ -72,6 +72,7 @@ body{
   overflow: hidden;
   background-image: url("/static/images/tv.png");
     background-size: cover;
+    background-blend-mode: luminosity;
 }
 
 
