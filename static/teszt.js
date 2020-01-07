@@ -4,6 +4,8 @@ const body = document.getElementById('teszt');
 let pistol_sound = new Audio("static/dspistol.wav");
 let reload_pistol = new Audio("static/reload_gun2.mp3");
 let machinegun_sound = new Audio("static/gun2.mp3");
+let reload_machinegun = new Audio("static/gun_cock_slow.mp3");
+let cock_machinegun = new Audio("static/machine_gun_clip_in.mp3");
 
 let play_gun_sound_once = function(sound) {
     sound.play();
@@ -65,7 +67,7 @@ let reloading = false;
 
 function startGame() {
     const gameWindow = document.querySelector('.game-display');
-    gameWindow.addEventListener('click', shootGun);
+    gameWindow.addEventListener('click', shootPistol);
     gameWindow.addEventListener('mousedown', holdShooting, true);
     gameWindow.addEventListener('mouseup', holdStopShooting,true);
     document.getElementById('bullet_indicator').innerText = gunStats[gun][1];
@@ -81,29 +83,29 @@ window.onkeydown = function (e) {
         if ( gunStats[key]){
             if (reloading){return}
             gun = key;
-            loadGun()
+            loadMachineGun()
         }
     }catch{}
 };
 
-function loadGun() {
+function loadMachineGun() {
     document.getElementById('gun').setAttribute('src', 'static/' + gunStats[gun][0] + '.png');
     document.getElementById('bullet_indicator').innerText = gunStats[gun][1]
 }
 
 function holdShooting() {
     if (gunStats[gun][6] === 'mousedown'){
-        startShooting()
+        startShootingMachinegun()
     }
 }
 
-function shootGun() {
+function shootPistol() {
     if (gunStats[gun][6] === 'mousedown'){return}
     const pistol = document.querySelector('.gun');
     gunStats[gun][1] -= 1;
     document.getElementById('bullet_indicator').innerText = gunStats[gun][1];
     play_gun_sound_once(pistol_sound);
-    this.removeEventListener('click', shootGun);
+    this.removeEventListener('click', shootPistol);
 
     if (gunStats[gun][1] === 0) {
         pistol.setAttribute('src', '/static/images/pistolShoot.gif');
@@ -116,7 +118,7 @@ function shootGun() {
         pistol.setAttribute('src', '/static/images/pistolShoot.gif');
         setTimeout(() => {
             pistol.setAttribute('src', '/static/images/pistol.gif');
-            this.addEventListener('click', shootGun);
+            this.addEventListener('click', shootPistol);
         }, 250);
     }
 }
@@ -127,7 +129,7 @@ function holdStopShooting() {
     }
 }
 
-function startShooting(){
+function startShootingMachinegun(){
     if (reloading){return}
     document.getElementById('gun').setAttribute('src', "static/" + gunStats[gun][0] + ".gif");
     shooting = true;
@@ -135,19 +137,21 @@ function startShooting(){
     bulletTaking = setInterval( function () {
         gunStats[gun][1] -= 1;
         document.getElementById('bullet_indicator').innerText = gunStats[gun][1];
-        document.getElementById('tdteszt').onmouseover = function () {
+        /*document.getElementById('tdteszt').onmouseover = function () {
             this.innerText = "Assdsda"
-        };
-        if (gunStats[gun][1] <= 0){startReloading()}
+        };*/
+        if (gunStats[gun][1] <= 0){startReloadingMachinegun()}
     }, gunStats[gun][2])
 }
 
-function startReloading() {
+function startReloadingMachinegun() {
     reloading = true;
     stopShooting();
     gunStats[gun][1] = gunStats[gun][3];
     body.style.cursor = 'wait';
     document.getElementById('bullet_indicator').innerText = 'Reloading';
+    play_gun_sound_once(reload_machinegun);
+    play_gun_sound_once(cock_machinegun);
     var reloadTimer = setInterval(function () {
         body.style.cursor = 'crosshair';
         reloading = false;
@@ -183,7 +187,7 @@ function reloadGun(pistol, gameWindow) {
     pistol.setAttribute('src', '/static/images/pistolReload.gif');
     setTimeout(() => {
         pistol.setAttribute('src', '/static/images/pistol.gif');
-        gameWindow.addEventListener('click', shootGun);
+        gameWindow.addEventListener('click', shootPistol);
         gunStats[gun][1] = gunStats[gun][3];
         reloading = false;
         document.getElementById('bullet_indicator').innerText = gunStats[gun][1];
