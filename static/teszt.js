@@ -1,38 +1,38 @@
 const body = document.getElementById('teszt');
 let machineGunHitIntervalTimer = false;
-let music_is_playing = false;
+let MusicIsPlaying = false;
 
 //audio
-let pistol_sound = new Audio("static/sound/dspistol.wav");
-let reload_pistol = new Audio("static/sound/reload_gun2.mp3");
-let machinegun_sound = new Audio("static/sound/gun2.mp3");
-let reload_machinegun = new Audio("static/sound/gun_cock_slow.mp3");
-let cock_machinegun = new Audio("static/sound/machine_gun_clip_in.mp3");
+let pistolSound = new Audio("static/sound/dspistol.wav");
+let reloadPistolSound = new Audio("static/sound/reload_gun2.mp3");
+let machinegunSound = new Audio("static/sound/gun2.mp3");
+let reloadMachinegunSound = new Audio("static/sound/gun_cock_slow.mp3");
+let cockMachinegunSound = new Audio("static/sound/machine_gun_clip_in.mp3");
 
 let music = new Audio("static/sound/doom_gate_music.mp3");
 
-let play_sound = function(sound, loop){
+function playSound(sound, loop){
     sound.loop = loop;
     sound.play();
     sound.currentTime = 0;
-};
+}
 
-let stop_sound = function(sound) {
+function stopSound(sound) {
     sound.pause();
     sound.currentTime = 0;
-};
+}
 
 //music play
-let music_button = document.getElementById("music-button");
-music_button.addEventListener("click", function () {
-    if (music_is_playing) {
-        music_is_playing = false;
-        stop_sound(music);
-        music_button.textContent = "Restart music";
+let playMusicButton = document.getElementById("music-button");
+playMusicButton.addEventListener("click", function () {
+    if (MusicIsPlaying) {
+        MusicIsPlaying = false;
+        stopSound(music);
+        playMusicButton.textContent = "Restart music";
     } else {
-        music_is_playing = true;
-        play_sound(music, true);
-        music_button.textContent = "Stop music";
+        MusicIsPlaying = true;
+        playSound(music, true);
+        playMusicButton.textContent = "Stop music";
     }
 });
 
@@ -75,26 +75,26 @@ function startGame() {
     for (let element of childs){
         element.style.userSelect = 'none';
     }
-    switch_damage_enemy(gun);
+    SwitchDamageTypeOnWeaponSwitch(gun);
 }
 
 window.onkeydown = function (e) {
-    try{
+    try {
         const key = Number(e.key);
-        if ( gunStats[key]){
-            if (reloading){return}
-            if (key === gun){return}
+        if (gunStats[key]) {
+            if (reloading) {return}
+            if (key === gun) {return}
             gun = key;
             switchGun()
         }
-    }catch{}
+    } catch {}
 };
 
 function switchGun() {
     document.querySelector('.gun').classList.toggle('gun-switch');
     reloading = true;
     setTimeout(() => {
-        switch_damage_enemy(gun);
+        SwitchDamageTypeOnWeaponSwitch(gun);
         document.getElementById('gun').setAttribute('src', 'static/' + gunStats[gun].weapon_image + '.png');
         document.getElementById('bullet_indicator').innerText = gunStats[gun].clip;
         document.querySelector('.gun').classList.toggle('gun-switch');
@@ -110,59 +110,53 @@ function switchGun() {
 let enemy = document.getElementById("enemy_test");
 enemy["health"] = 100;
 
-let enemy_killed = function (enemy) {
+function checkEnemyKill(enemy) {
 if (enemy["health"] <= 0) {
     enemy.textContent = "killed"
     }
 }
 //------------------
 
-let machine_gun_hit_interval = function(actual_enemy, gun) {
+function MachineGunSpreadFireHit(actual_enemy, gun) {
     machineGunHitIntervalTimer = setInterval(function() {
         if (reloading) {clearInterval(machineGunHitIntervalTimer)}
         actual_enemy["health"] -= gunStats[gun].damage;
-        console.log(actual_enemy["health"]);
-        enemy_killed(actual_enemy);
+        checkEnemyKill(actual_enemy);
     }, gunStats[gun].fire_rate)
-};
+}
 
-let switch_damage_enemy = function(current_gun) {
+function HitEnemyByMachineGun(event) {
+    let actual_enemy = event.target;
+    if (shooting === true) {
+        MachineGunSpreadFireHit(actual_enemy, gun);
+    } else if (shooting === false) {
+        clearInterval(MachineGunSpreadFireHit);
+        checkEnemyKill(actual_enemy);
+    }
+}
+
+function SwitchDamageTypeOnWeaponSwitch(current_gun) {
     if (current_gun === 1) /*machinegun*/ {
         enemy.addEventListener("mousedown", function (event) {
-            let actual_enemy = event.target;
-            if (shooting === true) {
-                machine_gun_hit_interval(actual_enemy, gun);
-            } else if (shooting === false) {
-                clearInterval(machine_gun_hit_interval);
-                console.log(actual_enemy["health"]);
-                enemy_killed(actual_enemy);
-            }
+            HitEnemyByMachineGun(event);
         }),
         enemy.addEventListener("mouseenter", function (event) {
-            let actual_enemy = event.target;
-            if (shooting === true) {
-                machine_gun_hit_interval(actual_enemy, gun);
-            } else if (shooting === false) {
-                clearInterval(machine_gun_hit_interval);
-                console.log(actual_enemy["health"]);
-                enemy_killed(actual_enemy);
-            }
+            HitEnemyByMachineGun(event);
         }),
-        enemy.addEventListener("mouseout", function (event) {
+        enemy.addEventListener("mouseout", function () {
             try {
                 clearInterval(machineGunHitIntervalTimer);
-            }catch{}
+            } catch {}
         })
     } else if (current_gun === 2) /*pistol*/ {
         enemy.addEventListener('mousedown', function (event) {
             if (!reloading) {
-            let actual_enemy = event.target;
-            actual_enemy["health"] -= gunStats[gun].damage;
-            console.log(actual_enemy["health"]);
+                let actual_enemy = event.target;
+                actual_enemy["health"] -= gunStats[gun].damage;
             }
         })
     }
-};
+}
 
 function holdShooting() {
     if (gunStats[gun].fire_type === 'mousedown'){
@@ -175,7 +169,7 @@ function shootGun() {
     const pistol = document.querySelector('.gun');
     gunStats[gun].clip -= 1;
     document.getElementById('bullet_indicator').innerText = gunStats[gun].clip;
-    play_sound(pistol_sound, false)
+    playSound(pistolSound, false)
     this.removeEventListener('click', shootGun);
     if (gunStats[gun].clip === 0) {
         pistol.setAttribute('src', '/static/images/pistolShoot.gif');
@@ -203,7 +197,7 @@ function startShooting(){
     if (reloading){return}
     document.getElementById('gun').setAttribute('src', "static/" + gunStats[gun].weapon_image + ".gif");
     shooting = true;
-    play_sound(machinegun_sound, true)
+    playSound(machinegunSound, true)
     gunStats[gun].clip -= 1;
     document.getElementById('bullet_indicator').innerText = gunStats[gun].clip;
     if (gunStats[gun].clip <= 0){startReloading()}
@@ -220,8 +214,8 @@ function startReloading() {
     gunStats[gun].clip = gunStats[gun].max_clip;
     body.style.cursor = 'wait';
     document.getElementById('bullet_indicator').innerText = 'Reloading';
-    play_sound(reload_machinegun,false);
-    play_sound(cock_machinegun, false);
+    playSound(reloadMachinegunSound,false);
+    playSound(cockMachinegunSound, false);
     var reloadTimer = setInterval(function () {
         body.style.cursor = 'crosshair';
         reloading = false;
@@ -233,7 +227,7 @@ function startReloading() {
 function stopShooting(){
     document.getElementById('gun').setAttribute('src', "static/" + gunStats[gun].weapon_image + ".png");
     shooting = false;
-    stop_sound(machinegun_sound);
+    stopSound(machinegunSound);
     try{clearInterval(bulletTaking)}catch {};
     try{clearInterval(machineGunHitIntervalTimer)}catch {};
 }
@@ -256,7 +250,7 @@ window.onmousemove = function (e) {
 };
 
 function reloadGun(pistol, gameWindow) {
-    play_sound(reload_pistol, false);
+    playSound(reloadPistolSound, false);
     pistol.setAttribute('src', '/static/images/pistolReload.gif');
     setTimeout(() => {
         pistol.setAttribute('src', '/static/images/pistol.gif');
