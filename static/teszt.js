@@ -28,13 +28,13 @@ playMusicButton.addEventListener("click", function () {
     if (MusicIsPlaying) {
         MusicIsPlaying = false;
         stopSound(music);
-        music_button.innerHTML = "";
-        music_button.innerHTML = "<i id='music-button' class=\"fas fa-volume-off\"></i>"
+        this.innerHTML = "";
+        this.innerHTML = "<i id='music-button' class=\"fas fa-volume-off\"></i>"
     } else {
         MusicIsPlaying = true;
         playSound(music, true);
-        music_button.innerHTML = "";
-        music_button.innerHTML = "<i id='music-button' class=\"fas fa-volume-up\"></i>"
+        this.innerHTML = "";
+        this.innerHTML = "<i id='music-button' class=\"fas fa-volume-up\"></i>"
     }
 });
 
