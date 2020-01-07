@@ -13,7 +13,7 @@ body{
   background: black;
   color: white;
   width: 95%;
-  height: 70%;
+  height: 90%;
   transform: translate(-50%, -50%);
   position: absolute;
   top: 50%;
@@ -51,15 +51,24 @@ body{
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  height: 800px;
+  height: 600px;
   width: 1200px;
   margin: 0 auto;
   padding: 20px;
-  overflow: auto;
+  overflow: hidden;
   background: none;
 }
 
 #music-button {
     color: red;
     padding: 1em;
+}
+
+#enemy_test {
+    position: fixed;
+    top: 30%;
+    left: 50%;
+    height: 60px;
+    width: 40px;
+    background: aqua;
 }
