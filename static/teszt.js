@@ -126,7 +126,7 @@ function reloadGun(pistol, gameWindow) {
         pistol.setAttribute('src', '/static/images/pistol.gif');
         gameWindow.addEventListener('click', shootGun);
         gunStats[gun][1] = gunStats[gun][3]
-        reload = false;
+        reloading = false;
         document.getElementById('bullet_indicator').innerText = gunStats[gun][1];
     }, 1370);
 }
