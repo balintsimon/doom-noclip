@@ -1,4 +1,5 @@
 const body = document.getElementById('teszt');
+var machineGunHitIntervalTimer = false;
 
 //sound related
 let pistol_sound = new Audio("static/dspistol.wav");
@@ -57,8 +58,8 @@ music_button.addEventListener("click", function () {
 //image, clip_size, fire_rate, max_clip, damage, reload_time, fire type
 let gun = 2;
 let gunStats = [];
-gunStats[1] = ['gun_1', 30, 100,30,5,2000, 'mousedown'];
-gunStats[2] = ['images/pistol',6,100,6,20,2000,'click'];
+gunStats[1] = ['gun_1', 30, 100, 30, 5, 2000, 'mousedown'];
+gunStats[2] = ['images/pistol', 6, 100, 6, 20, 2000,'click'];
 let shooting = false;
 let bulletTaking = false;
 let reloading = false;
@@ -84,15 +85,16 @@ window.onkeydown = function (e) {
             if (reloading){return}
             if (key == gun){return}
             gun = key;
-            loadGun()
+            switchGun()
         }
     }catch{}
 };
 
-function loadGun() {
+function switchGun() {
     document.querySelector('.gun').classList.toggle('gun-switch');
     reloading = true;
     setTimeout(() => {
+        switch_damage_enemy(gun);
         document.getElementById('gun').setAttribute('src', 'static/' + gunStats[gun][0] + '.png');
         document.getElementById('bullet_indicator').innerText = gunStats[gun][1];
         document.querySelector('.gun').classList.toggle('gun-switch');
@@ -102,6 +104,60 @@ function loadGun() {
 
     }, 1000);
 }
+
+// enemy related test
+
+let enemy = document.getElementById("enemy_test");
+enemy["health"] = 100;
+
+if (enemy["health"] <= 0) {
+    enemy.textContent = "killed"
+}
+//------------------
+
+let machine_gun_hit_interval = function(actual_enemy, gun) {
+    machineGunHitIntervalTimer = setInterval(function() {
+        if (reloading) {clearInterval(machineGunHitIntervalTimer)}
+        actual_enemy["health"] -= gunStats[gun][4];
+        console.log(actual_enemy["health"]);
+    }, gunStats[gun][2])
+};
+
+let switch_damage_enemy = function(current_gun) {
+    if (current_gun === 1) /*machinegun*/ {
+        enemy.addEventListener("mousedown", function (event) {
+            let actual_enemy = event.target;
+            if (shooting === true) {
+                machine_gun_hit_interval(actual_enemy, gun);
+            } else if (shooting === false) {
+                clearInterval(machine_gun_hit_interval);
+                console.log(actual_enemy["health"]);
+            }
+        }),
+        enemy.addEventListener("mouseenter", function (event) {
+            let actual_enemy = event.target;
+            if (shooting === true) {
+                machine_gun_hit_interval(actual_enemy, gun);
+            } else if (shooting === false) {
+                clearInterval(machine_gun_hit_interval);
+                console.log(actual_enemy["health"]);
+            }
+        }),
+        enemy.addEventListener("mouseout", function (event) {
+            if (machineGunHitIntervalTimer) {
+                clearInterval(machineGunHitIntervalTimer);
+            }
+        })
+    } else if (current_gun === 2) /*pistol*/ {
+        enemy.addEventListener('mousedown', function (event) {
+            if (!reloading) {
+            let actual_enemy = event.target;
+            actual_enemy["health"] -= gunStats[gun][4];
+            console.log(actual_enemy["health"]);
+            }
+        })
+    }
+};
 
 function holdShooting() {
     if (gunStats[gun][6] === 'mousedown'){
@@ -173,7 +229,8 @@ function stopShooting(){
     document.getElementById('gun').setAttribute('src', "static/" + gunStats[gun][0] + ".png");
     shooting = false;
     stop_gun_sound(machinegun_sound);
-    try{clearInterval(bulletTaking)}catch {}
+    try{clearInterval(bulletTaking)}catch {};
+    try{clearInterval(machineGunHitIntervalTimer)}catch {};
 }
 
 document.getElementById('gun').ondragstart = function() { return false; };
@@ -202,43 +259,6 @@ function reloadGun(pistol, gameWindow) {
     }, 1370);
 }
 
-// enemy related test
-
-let enemy = document.getElementById("enemy_test");
-enemy["health"] = 100;
-
-
-if (enemy["health"] <= 0) {
-    enemy.textContent = "killed"
-}
-
-
-let enemy_hit_by_machinegun = function(actual_enemy, gun) {
-    actual_enemy["health"] -= gunStats[gun][4];
-    console.log(actual_enemy["health"]);
-};
-
-let machine_gun_hit_interval = function(actual_enemy, gun) {
-    setInterval(enemy_hit_by_machinegun(actual_enemy, gun), 10)
-};
-
-if (gun === 1) /*machinegun*/ {
-    enemy.addEventListener("mouseenter", function(event) {
-        let actual_enemy = event.target;
-        if (shooting === true) {
-            machine_gun_hit_interval(actual_enemy, gun);
-        } else if (shooting === false) {
-            clearInterval(machine_gun_hit_interval);
-            console.log(actual_enemy["health"]);
-        }
-    })
-} else if (gun === 2) /*pistol*/ {
-    enemy.addEventListener('mousedown', function (event) {
-        let actual_enemy = event.target;
-        actual_enemy["health"] -= gunStats[gun][4];
-        console.log(actual_enemy["health"]);
-    })
-}
 
 
 
