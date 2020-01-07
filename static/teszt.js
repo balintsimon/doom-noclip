@@ -1,5 +1,4 @@
 const body = document.getElementById('teszt');
-const body = document.getElementById('teszt');
 
 //sound related
 let pistol_sound = new Audio("static/dspistol.wav");
