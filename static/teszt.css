@@ -3,6 +3,12 @@ body{
     background-size: cover;
 }
 
+#bullet_indicator{
+    font-family: 'Consolas', 'Deja Vu Sans Mono', 'Bitstream Vera Sans Mono', monospace;
+    font-size: 36px;
+    text-shadow: 2px 2px #000000;
+}
+
 .game-display {
 
   color: white;
