@@ -178,7 +178,7 @@ function shootGun() {
     if (gunStats[gun][1] === 0) {
         pistol.setAttribute('src', '/static/images/pistolShoot.gif');
         setTimeout(() => {
-            document.getElementById('bullet_indicator').innerText = 'Reloading'
+            document.getElementById('bullet_indicator').innerText = 'Reloading';
             reloading = true;
             reloadGun(pistol, this);
         }, 250);
@@ -213,7 +213,7 @@ function startShooting(){
 }
 
 function startReloading() {
-    document.querySelector('.gun').classList.toggle('gun-switch');
+    document.querySelector('.gun').classList.toggle('machine-gun-reload');
     reloading = true;
     stopShooting();
     gunStats[gun][1] = gunStats[gun][3];
@@ -221,7 +221,7 @@ function startReloading() {
     play_gun_sound_once(reload_machinegun);
     play_gun_sound_once(cock_machinegun);
     const reloadTimer = setInterval(function () {
-        document.querySelector('.gun').classList.toggle('gun-switch');
+        document.querySelector('.gun').classList.toggle('machine-gun-reload');
         reloading = false;
         document.getElementById('bullet_indicator').innerText = gunStats[gun][1];
         clearInterval(reloadTimer)

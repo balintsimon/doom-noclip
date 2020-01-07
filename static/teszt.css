@@ -74,6 +74,19 @@ body{
     background-size: cover;
 }
 
+
+.machine-gun-reload {
+    position: absolute;
+    bottom: -200px;
+    -khtml-user-select: none;
+    -o-user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    user-select: none;
+    height: 200px;
+    transition: bottom 0.5s;
+}
+
 .music-button{
     position: absolute;
     left: 5%;
