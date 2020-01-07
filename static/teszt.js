@@ -51,11 +51,24 @@ function startGame() {
     gameWindow.addEventListener('mousedown', holdShooting, true);
     gameWindow.addEventListener('mouseup', holdStopShooting,true);
     document.getElementById('bullet_indicator').innerText = gunStats[gun][1];
+    displayEnemies();
     const childs = document.getElementsByTagName('body')[0].children;
     for (let element of childs){
         element.style.userSelect = 'none';
     }
     switch_damage_enemy(gun);
+}
+
+function displayEnemies() {
+    const enemySpawnNumber = Math.floor(Math.random() * (10000 - 3000) + 3000); // creates a random number between 3000 and 10000 (milliseconds!)
+    //setTimeout(createEnemy, enemySpawnNumber); // use this to run this function when the code is completed
+    createEnemy();
+}
+
+function createEnemy() {
+    const enemies = document.querySelectorAll('.enemy'); // enemy object with all the enemies inside
+    enemies.forEach(monster => monster.);
+    // displayEnemies() return this after the code is completed
 }
 
 window.onkeydown = function (e) {

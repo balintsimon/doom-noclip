@@ -26,6 +26,13 @@ body{
     background-image: url("cropped.jpg");
 }
 
+.enemy-1, .enemy-2, .enemy-3{
+    height: 200px;
+    width: 200px;
+    background: red;
+    margin: 20px;
+}
+
 .gun{
     position: absolute;
     bottom: 0;
