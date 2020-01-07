@@ -28,13 +28,15 @@ playMusicButton.addEventListener("click", function () {
     if (MusicIsPlaying) {
         MusicIsPlaying = false;
         stopSound(music);
-        music_button.innerHTML = "";
-        music_button.innerHTML = "<i id='music-button' class=\"fas fa-volume-off\"></i>"
+        playMusicButton.innerHTML = "";
+        playMusicButton.innerHTML = "<i id='music-button' class=\"fas fa-volume-off\"></i>"
+        console.log("volume down")
     } else {
         MusicIsPlaying = true;
         playSound(music, true);
-        music_button.innerHTML = "";
-        music_button.innerHTML = "<i id='music-button' class=\"fas fa-volume-up\"></i>"
+        playMusicButton.innerHTML = "";
+        playMusicButton.innerHTML = "<i id='music-button' class=\"fas fa-volume-up\"></i>"
+        console.log("volume up")
     }
 });
 
