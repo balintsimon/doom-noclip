@@ -67,7 +67,7 @@ body{
 
 .game-border{
   position: fixed;
-  top: 53%;
+  top: 31.25rem;
   left: 41.5%;
   transform: translate(-50%, -50%);
   height: 80%; /*46.25rem; */
