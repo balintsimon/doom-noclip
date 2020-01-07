@@ -136,6 +136,13 @@ function startShootingMachinegun(){
     bulletTaking = setInterval( function () {
         gunStats[gun][1] -= 1;
         document.getElementById('bullet_indicator').innerText = gunStats[gun][1];
+        for (let enemy in enemys){
+            let enem = document.getElementById(enemy[0])
+            if (enemy[1]){
+                console.log(shoots)
+                shoots += 1
+            }
+        }
         if (gunStats[gun][1] <= 0){startReloadingMachinegun()}
     }, gunStats[gun][2])
 }
@@ -172,12 +179,6 @@ window.onmousemove = function (e) {
         y = e.clientY;
     if (x > 370 && x < 1348) {
         document.getElementById('gun').style.left = (x - 370) + 'px';
-    } /*else {
-        stopShooting();
-    }*/
-    else if (window.style.cursor !== 'crosshair' || window.style.cursor !== 'wait') {
-        stopShooting()
-        //need bugfix to stop shooting when leaving play area
     }
 };
 
