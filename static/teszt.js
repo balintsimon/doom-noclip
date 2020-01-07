@@ -1,6 +1,5 @@
 const body = document.getElementById('teszt');
 
-//sound related
 let pistol_sound = new Audio("static/dspistol.wav");
 let reload_pistol = new Audio("static/reload_gun2.mp3");
 let machinegun_sound = new Audio("static/gun2.mp3");
