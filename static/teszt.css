@@ -67,10 +67,10 @@ body{
 .game-border{
   position: fixed;
   top: 49.7%;
-  left: 42%;
+  left: 41.5%;
   transform: translate(-50%, -50%);
-  height: 740px;
-  width: 1290px;
+  height: 46.25rem;
+  width: 80.625rem;
   margin: 0 auto;
   padding: 20px;
   overflow: hidden;
