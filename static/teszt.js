@@ -23,16 +23,18 @@ function stopSound(sound) {
 }
 
 //music play
-let playMusicButton = document.getElementById("music-button");
+let playMusicButton = document.querySelector(".music-button");
 playMusicButton.addEventListener("click", function () {
     if (MusicIsPlaying) {
         MusicIsPlaying = false;
         stopSound(music);
-        playMusicButton.textContent = "Restart music";
+        music_button.innerHTML = "";
+        music_button.innerHTML = "<i id='music-button' class=\"fas fa-volume-off\"></i>"
     } else {
         MusicIsPlaying = true;
         playSound(music, true);
-        playMusicButton.textContent = "Stop music";
+        music_button.innerHTML = "";
+        music_button.innerHTML = "<i id='music-button' class=\"fas fa-volume-up\"></i>"
     }
 });
 
@@ -221,16 +223,18 @@ function reloadPistol(pistol, gameWindow) {
 }
 
 function reloadMachinegun() {
+    document.querySelector('.gun').classList.toggle('machine-gun-reload');
     reloading = true;
     stopShooting();
     gunStats[gun].clip = gunStats[gun].max_clip;
-    body.style.cursor = 'wait';
+    //body.style.cursor = 'wait';
     document.getElementById('bullet_indicator').innerText = 'Reloading';
     playSound(reloadMachinegunSound,false);
     playSound(cockMachinegunSound, false);
 
     var reloadTimer = setInterval(function () {
-        body.style.cursor = 'crosshair';
+        //body.style.cursor = 'crosshair';
+        document.querySelector('.gun').classList.toggle('machine-gun-reload');
         reloading = false;
         document.getElementById('bullet_indicator').innerText = gunStats[gun].clip;
         clearInterval(reloadTimer)

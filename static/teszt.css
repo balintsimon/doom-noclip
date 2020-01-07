@@ -1,6 +1,6 @@
 body{
-    background-image: url("https://store-images.s-microsoft.com/image/apps.55453.64809307044061818.61b1d7a1-2194-4bcc-b9a1-d6f87fcc5aed.84f3d2a4-b07d-469b-862f-77488558d157?mode=scale&q=90&h=1080&w=1920&background=%23FFFFFF");
-    background-size: cover;
+    height: 100%;
+    background-image: url("/static/images/background.png");
 }
 
 #bullet_indicator{
@@ -10,20 +10,21 @@ body{
 }
 
 .game-display {
-    color: white;
-    width: 95%;
-    height: 90%;
+    width: 970px;
+    height: 530px;
     transform: translate(-50%, -50%);
     position: absolute;
-    top: 50%;
-    left: 50%;
+    top: 45%;
+    left: 41.7%;
     padding: 20px;
     overflow: hidden;
     cursor:url("/static/images/crosshair.png"), auto;
-    border: solid;
     background-size: cover;
     background-position: bottom;
-    background-image: url("cropped.jpg");
+   background-image: url("cropped.jpg");
+    border-radius: 5% / 80%;
+    box-shadow: 1px 1px 20px;
+    border: 6px solid black;
 }
 
 .gun{
@@ -60,22 +61,44 @@ body{
 }
 
 .game-border{
-  position: fixed;
-  top: 50%;
+  position: absolute;
+  top: 57.5%;
   left: 50%;
   transform: translate(-50%, -50%);
-  height: 600px;
-  width: 1200px;
+  height: 800px;
+  width: 1400px;
   margin: 0 auto;
   padding: 20px;
   overflow: hidden;
-  background: none;
+  background-image: url("/static/images/tv.png");
+    background-size: cover;
+    background-blend-mode: luminosity;
+}
+
+
+.machine-gun-reload {
+    position: absolute;
+    bottom: -200px;
+    -khtml-user-select: none;
+    -o-user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    user-select: none;
+    height: 200px;
+    transition: bottom 0.5s;
+}
+
+.music-button{
+    position: absolute;
+    left: 5%;
 }
 
 #music-button {
-    color: red;
-    padding: 1em;
+    color: white;
+    font-size: 50px;
+    cursor: pointer;
 }
+
 
 #enemy_test {
     position: fixed;
