@@ -54,7 +54,7 @@ music_button.addEventListener("click", function () {
 
 
 // gun stats
-
+//image, clip_size, fire_rate, max_clip, damage, reload_time, fire type
 let gun = 2;
 let gunStats = [];
 gunStats[1] = ['gun_1', 30, 100, 30, 5, 2000, 'mousedown'];
@@ -137,9 +137,6 @@ function startShootingMachinegun(){
     bulletTaking = setInterval( function () {
         gunStats[gun][1] -= 1;
         document.getElementById('bullet_indicator').innerText = gunStats[gun][1];
-        /*document.getElementById('tdteszt').onmouseover = function () {
-            this.innerText = "Assdsda"
-        };*/
         if (gunStats[gun][1] <= 0){startReloadingMachinegun()}
     }, gunStats[gun][2])
 }
@@ -196,5 +193,45 @@ function reloadGun(pistol, gameWindow) {
         document.getElementById('bullet_indicator').innerText = gunStats[gun][1];
     }, 1370);
 }
+
+// enemy related test
+
+let enemy = document.getElementById("enemy_test");
+enemy["health"] = 100;
+
+
+if (enemy["health"] <= 0) {
+    enemy.textContent = "killed"
+}
+
+
+let enemy_hit_by_machinegun = function(actual_enemy, gun) {
+    actual_enemy["health"] -= gunStats[gun][4];
+    console.log(actual_enemy["health"]);
+};
+
+let machine_gun_hit_interval = function(actual_enemy, gun) {
+    setInterval(enemy_hit_by_machinegun(actual_enemy, gun), 10)
+};
+
+if (gun === 1) /*machinegun*/ {
+    enemy.addEventListener("mousemove", function(event) {
+        let actual_enemy = event.target;
+        if (shooting === true) {
+            machine_gun_hit_interval(actual_enemy, gun)
+        } else if (shooting === false) {
+            clearInterval(machine_gun_hit_interval);
+            console.log(actual_enemy["health"]);
+        }
+    })
+} else if (gun === 2) /*pistol*/ {
+    enemy.addEventListener('mousedown', function (event) {
+        let actual_enemy = event.target;
+        actual_enemy["health"] = actual_enemy["health"] - gunStats[gun][4];
+        console.log(actual_enemy["health"]);
+    })
+}
+
+
 
 startGame();
