@@ -173,12 +173,6 @@ window.onmousemove = function (e) {
         y = e.clientY;
     if (x > 370 && x < 1348) {
         document.getElementById('gun').style.left = (x - 370) + 'px';
-    } /*else {
-        stopShooting();
-    }*/
-    else if (window.style.cursor !== 'crosshair' || window.style.cursor !== 'wait') {
-        stopShooting()
-        //need bugfix to stop shooting when leaving play area
     }
 };
 
@@ -215,10 +209,10 @@ let machine_gun_hit_interval = function(actual_enemy, gun) {
 };
 
 if (gun === 1) /*machinegun*/ {
-    enemy.addEventListener("mousemove", function(event) {
+    enemy.addEventListener("mouseenter", function(event) {
         let actual_enemy = event.target;
         if (shooting === true) {
-            machine_gun_hit_interval(actual_enemy, gun)
+            machine_gun_hit_interval(actual_enemy, gun);
         } else if (shooting === false) {
             clearInterval(machine_gun_hit_interval);
             console.log(actual_enemy["health"]);
@@ -227,7 +221,7 @@ if (gun === 1) /*machinegun*/ {
 } else if (gun === 2) /*pistol*/ {
     enemy.addEventListener('mousedown', function (event) {
         let actual_enemy = event.target;
-        actual_enemy["health"] = actual_enemy["health"] - gunStats[gun][4];
+        actual_enemy["health"] -= gunStats[gun][4];
         console.log(actual_enemy["health"]);
     })
 }
