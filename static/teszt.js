@@ -169,16 +169,19 @@ function stopShooting(){
 
 document.getElementById('gun').ondragstart = function() { return false; };
 
-document.getElementById('game-border').onmouseover = function(){try{stopShooting()}catch {
-}};
+document.getElementById('game-border').onmouseleave = function(){try{stopShooting()}catch {}};
 
 window.onmousemove = function (e) {
     var x = e.clientX,
         y = e.clientY;
     if (x > 370 && x < 1348) {
         document.getElementById('gun').style.left = (x - 370) + 'px';
-    } else {
+    } /*else {
+        stopShooting();
+    }*/
+    else if (window.style.cursor !== 'crosshair' || window.style.cursor !== 'wait') {
         stopShooting()
+        //need bugfix to stop shooting when leaving play area
     }
 };
 
