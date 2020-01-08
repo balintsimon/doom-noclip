@@ -45,6 +45,7 @@ def get_highscores(cursor):
     cursor.execute("""
     SELECT name, high_score
     FROM users
+    ORDER BY high_score DESC
     """)
 
     users = cursor.fetchall()

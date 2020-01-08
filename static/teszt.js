@@ -186,7 +186,7 @@ function switchGun() {
 }
 
 function SwitchDamageTypeOnWeaponSwitch(current_gun) {
-    if (current_gun === 1) /*machinegun*/ {
+    if (current_gun === 1) {
         enemy.addEventListener("mousedown", HitEnemyByMachineGun);
         enemy.addEventListener("mouseenter", HitEnemyByMachineGun);
         enemy.addEventListener("mouseout", function () {
@@ -194,7 +194,7 @@ function SwitchDamageTypeOnWeaponSwitch(current_gun) {
                 clearInterval(machineGunHitIntervalTimer);
             } catch {}
         })
-    } else if (current_gun === 2) /*pistol*/ {
+    } else if (current_gun === 2) {
         enemy.addEventListener('mousedown', function (event) {
             if (!reloading) {
                 let actual_enemy = event.target;
@@ -269,3 +269,28 @@ function startGame() {
 }
 
 startGame();
+
+
+/*
+showMenu();
+
+function render_game() {
+    let new_screen = document.getElementById("teszt");
+    new_screen.innerHTML = "";
+    let startGameFunction = startGame();
+    new_screen.innerHTML = startGameFunction;}
+
+    function showMenu() {
+    let screen = document.getElementById("teszt");
+    screen.innerHTML = "";
+    let menu_items = document.createElement("p");
+    let high_score = "<a href='/high_scores'}}'>High scores</a><br>";
+
+
+    let start_game = "<br><p class='start_button' style='background: white' onclick='render_game()'>JS High Scores</p><br>";
+
+    menu_items.innerHTML = high_score + start_game;
+
+    screen.appendChild(menu_items);
+}
+*/
