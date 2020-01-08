@@ -49,7 +49,7 @@ function checkEnemyKill(enemy) {
         setTimeout(function () {
             enemy.style.visibility = "hidden"
             enemy.removeAttribute('src')
-        },2600)
+        },1710)
     }
 }
 //------------------
