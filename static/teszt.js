@@ -39,15 +39,21 @@ playMusicButton.addEventListener("click", function () {
 });
 
 // enemy related test
+let enemies = []
 
-let enemy = document.getElementById("enemy_test");
-enemy["health"] = 100;
+var enemy = document.getElementById("enemy_test");
+enemy.setAttribute('data-health', 100)
+enemy.setAttribute('data-miss_chance', 20)
+enemy.setAttribute('data-enemy_type', 1)
+enemies.push(enemy)
+//enemy["health"] = 100;
 
 function checkEnemyKill(enemy) {
-if (enemy["health"] <= 0) {
+if (enemy.dataset.health <= 0) {
     enemy.textContent = "killed"
     }
 }
+
 //------------------
 
 // gun
@@ -142,17 +148,20 @@ function shootContinous() {
 function MachineGunSpreadFireHit(actual_enemy, gun) {
     machineGunHitIntervalTimer = setInterval(function() {
         if (reloading) {clearInterval(machineGunHitIntervalTimer)}
-        actual_enemy["health"] -= gunStats[gun].damage;
+        actual_enemy.dataset.health -= gunStats[gun].damage;
+        console.log(actual_enemy.dataset.health)
         checkEnemyKill(actual_enemy);
     }, gunStats[gun].fire_rate)
 }
 
 function HitEnemyByMachineGun(event) {
     let actual_enemy = event.target;
+    console.log(actual_enemy)
     if (shooting === true) {
         MachineGunSpreadFireHit(actual_enemy, gun);
         checkEnemyKill(actual_enemy);
     } else if (shooting === false) {
+        console.log('Not shooting')
         clearInterval(MachineGunSpreadFireHit);
         checkEnemyKill(actual_enemy);
     }
@@ -186,27 +195,30 @@ function switchGun() {
 }
 
 function SwitchDamageTypeOnWeaponSwitch(current_gun) {
-    if (current_gun === 1) /*machinegun*/ {
-        enemy.addEventListener("mousedown", function (event) {
-            HitEnemyByMachineGun(event);
-        }),
-        enemy.addEventListener("mouseenter", function (event) {
-            HitEnemyByMachineGun(event);
-        }),
-        enemy.addEventListener("mouseout", function () {
-            try {
-                clearInterval(machineGunHitIntervalTimer);
-            } catch {}
-        })
-    } else if (current_gun === 2) /*pistol*/ {
-        enemy.addEventListener('mousedown', function (event) {
-            if (!reloading) {
-                let actual_enemy = event.target;
-                actual_enemy["health"] -= gunStats[gun].damage;
-                enemy_killed(actual_enemy);
-            }
-        })
+    for ( enemy of enemies){
+        if (current_gun === 1) /*machinegun*/ {
+            enemy.addEventListener("mousedown", HitEnemyByMachineGun),
+            enemy.addEventListener("mouseenter", HitEnemyByMachineGun),
+            enemy.addEventListener("mouseout", machineGunMouseOut)
+        } else if (current_gun === 2) /*pistol*/ {
+            enemy.addEventListener('mousedown', function (event) {
+                if (!reloading) {
+                    enemy.removeEventListener("mousedown", HitEnemyByMachineGun),
+                    enemy.removeEventListener("mouseenter", HitEnemyByMachineGun),
+                    enemy.removeEventListener("mouseout", machineGunMouseOut)
+                    let actual_enemy = event.target;
+                    actual_enemy.dataset.health -= gunStats[gun].damage;
+                    checkEnemyKill(actual_enemy);
+                }
+            })
+        }
     }
+}
+
+function machineGunMouseOut() {
+    try {
+        clearInterval(machineGunHitIntervalTimer);
+    } catch {}
 }
 
 function reloadPistol(pistol, gameWindow) {
