@@ -161,7 +161,7 @@ function damageEnemy(actual_enemy, damage) {
 }
 
 function displayEnemies() {
-    const enemySpawnNumber = Math.floor(Math.random() * (10000 - 3000) + 3000); // creates a random number between 3000 and 10000 (milliseconds!)
+    const enemySpawnNumber = Math.floor(Math.random() * (1000 - 3000) + 3000); // creates a random number between 3000 and 10000 (milliseconds!)
     enemyTimeout = setTimeout(checkEmptyPositions, enemySpawnNumber); // use this to run this function when the code is completed
 }
 
@@ -187,7 +187,7 @@ function insertEnemyPicture(positions) {
     const randomIndex = Math.floor(Math.random() * positions.length);
     positions[randomIndex].ondragstart = function() { return false; };
     enemies.push(positions[randomIndex])
-    positions[randomIndex].style.display = "inline-block"
+    positions[randomIndex].style.visibility = "visible"
     SwitchDamageTypeOnWeaponSwitch(gun)
     console.log('Moving')
     CreateEnemyMovement(positions[randomIndex])
