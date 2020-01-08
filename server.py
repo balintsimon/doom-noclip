@@ -28,12 +28,16 @@ def index():
                            users=all_high_scores)
 
 
-@app.route('/high_scores')
+@app.route('/high-scores')
 def show_high_scores():
     all_high_scores = data_manager.get_highscores()
     return render_template('high_scores.html',
                            users=all_high_scores)
 
+
+@app.route('/new-high-score')
+def new_high_score():
+    pass
 
 if __name__ == '__main__':
     app.run(debug=True)

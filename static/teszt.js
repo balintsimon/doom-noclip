@@ -87,7 +87,7 @@ gunStats[1] = {
     clip : 30,
     fire_rate : 100,
     max_clip : 30,
-    damage : 10,
+    damage : 20,
     reload_time : 2000,
     fire_type : 'mousedown'
 };
@@ -464,6 +464,12 @@ function displayMenu() { // TODO: add eventlistener to the leaderboard button at
     tvScreen.innerHTML = menuTemplate();
     const playGameButton = document.querySelector('#play-game');
     playGameButton.addEventListener('click', startGame);
+    const highScoreButton = document.querySelector('#leaderboards');
+    highScoreButton.addEventListener('click', renderHighScorePage)
+}
+
+function renderHighScorePage () {
+    window.location.href = "/high-scores";
 }
 
 displayMenu();
