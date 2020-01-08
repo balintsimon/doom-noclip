@@ -1,4 +1,4 @@
-import {menuTemplate} from "./dom.js";
+import {menuTemplate, gameTemplate} from "./dom.js";
 
 const body = document.getElementById('teszt');
 var machineGunHitIntervalTimer = false;
@@ -393,31 +393,35 @@ function disableShootOutsideWindowBug() {
     try{stopShooting()}catch {}
 }
 
-// function startGame() {
-//     kills = 0
-//     const gameWindow = document.querySelector('.game-display');
-//     document.getElementById('bullet_indicator').innerText = gunStats[gun].clip;
-//     const childs = document.getElementsByTagName('body')[0].children;
-//     for (let element of childs){
-//         element.style.userSelect = 'none';
-//     }
-//     SwitchDamageTypeOnWeaponSwitch(gun);
-//     document.getElementById('gun').setAttribute('data-hp', 100)
-//     damagePlayer(0)
-//     displayEnemies()
-//
-//     // EVENT HANDLERS \\
-//     window.addEventListener('mousemove', moveWeaponOnScreen)
-//     window.addEventListener('keydown', changeWeapon)
-//     document.getElementById('gun').addEventListener('dragstart', disableGunDragBug)
-//     document.getElementById('game-border').addEventListener('mouseleave', disableShootOutsideWindowBug)
-//     gameWindow.addEventListener('click', shootSingle);
-//     gameWindow.addEventListener('mousedown', holdShooting, true);
-//     gameWindow.addEventListener('mouseup', holdStopShooting,true);
-//     // EVENT HANDLERS \\
-//
-//
-// }
+function startGame() {
+    kills = 0;
+    const gameWindow = document.querySelector('.game-display');
+    gameWindow.classList.toggle('menu');
+    gameWindow.innerHTML = "";
+    gameWindow.classList.toggle('play-game');
+    gameWindow.innerHTML = gameTemplate();
+    document.getElementById('bullet_indicator').innerText = gunStats[gun].clip;
+    const childs = document.getElementsByTagName('body')[0].children;
+    for (let element of childs){
+        element.style.userSelect = 'none';
+    }
+    SwitchDamageTypeOnWeaponSwitch(gun);
+    document.getElementById('gun').setAttribute('data-hp', 100)
+    damagePlayer(0)
+    displayEnemies()
+
+    // EVENT HANDLERS \\
+    window.addEventListener('mousemove', moveWeaponOnScreen)
+    window.addEventListener('keydown', changeWeapon)
+    document.getElementById('gun').addEventListener('dragstart', disableGunDragBug)
+    document.getElementById('game-border').addEventListener('mouseleave', disableShootOutsideWindowBug)
+    gameWindow.addEventListener('click', shootSingle);
+    gameWindow.addEventListener('mousedown', holdShooting, true);
+    gameWindow.addEventListener('mouseup', holdStopShooting,true);
+    // EVENT HANDLERS \\
+
+
+}
 
 function endGame() {
     const gameWindow = document.querySelector('.game-display');
@@ -438,11 +442,13 @@ function endGame() {
     // Add end game dom manipulation
 }
 
-function displayMenu() {
+function displayMenu() { // TODO: add eventlistener to the leaderboard button at the end of this function!
     const tvScreen = document.querySelector('.game-display');
     tvScreen.classList.toggle('menu');
     tvScreen.innerHTML = "";
     tvScreen.innerHTML = menuTemplate();
+    const playGameButton = document.querySelector('#play-game');
+    playGameButton.addEventListener('click', startGame);
 }
 
 displayMenu();

@@ -11,11 +11,11 @@ body{
 }
 
 .game-display {
-    width: 970px;
-    height: 530px;
+    width: 982px;
+    height: 560px;
     transform: translate(-50%, -50%);
     position: absolute;
-    top: 45%;
+    top: 47%;
     left: 41.7%;
     padding: 20px;
     overflow: hidden;
@@ -24,11 +24,22 @@ body{
     border: 6px solid black;
 }
 
-.btn{
+#play-game {
     position: absolute;
     padding: 5px 40px;
     top: 60%;
     left: 43%;
+    background-color: #f7f7f7f7;
+    font-size: 17px;
+    font-weight: bold;
+    border-radius: 20px;
+}
+
+#leaderboards {
+    position: absolute;
+    padding: 5px 40px;
+    top: 75%;
+    left: 38.5%;
     background-color: #f7f7f7f7;
     font-size: 17px;
     font-weight: bold;
@@ -43,8 +54,9 @@ body{
 }
 
 .game-display.menu{
-    background-image: url("/static/images/doom-menu.gif");
     background-size: cover;
+    background-color: black;
+    background-image: url("/static/images/doom-menu.gif");
 }
 
 .enemy-1 {
