@@ -41,12 +41,7 @@ playMusicButton.addEventListener("click", function () {
 // enemy related test
 let enemies = []
 
-var enemy = document.getElementById("enemy_test");
-enemy.setAttribute('data-health', 100)
-enemy.setAttribute('data-miss_chance', 20)
-enemy.setAttribute('data-enemy_type', 1)
-enemies.push(enemy)
-//enemy["health"] = 100;
+
 
 function checkEnemyKill(enemy) {
 if (enemy.dataset.health <= 0) {
@@ -169,18 +164,41 @@ function insertEnemyPicture(positions) {
     const enemyPicture = [{src :'/static/images/enemies/doom-enemy1.gif', health : 100, missChance : 20}];
     const randomEnemyIndex = Math.floor(Math.random() * enemyPicture.length);
     const randomIndex = Math.floor(Math.random() * positions.length);
+    positions[randomIndex].ondragstart = function() { return false; };
+    enemies.push(positions[randomIndex])
+    positions[randomIndex].style.display = "inline-block"
+    SwitchDamageTypeOnWeaponSwitch(gun)
+    console.log('Moving')
+    CreateEnemyMovement(positions[randomIndex])
     positions[randomIndex].setAttribute('src', enemyPicture[randomEnemyIndex].src);
     positions[randomIndex].setAttribute('data-health', enemyPicture[randomEnemyIndex].health);
     positions[randomIndex].setAttribute('data-miss_chance', enemyPicture[randomEnemyIndex].missChance);
     positions[randomIndex].setAttribute('data-enemy_type', randomEnemyIndex);
-    enemies = positions
+    //enemies = positions
     return displayEnemies();
+}
+
+function CreateEnemyMovement(actual_enemy) {
+    setTimeout( function () {
+        console.log('Shooting')
+        let interval = setInterval(
+            function () {
+                if (actual_enemy.dataset.health > 0){
+                    (Math.floor(Math.random() * 100) <= actual_enemy.dataset.miss_chance) ? {} : console.log('Minus hp')
+                }else{
+                    clearInterval(interval)
+                }
+            },2400/6
+        )
+        actual_enemy.setAttribute('data-interval', interval)
+    }, 1000)
 }
 
 function HitEnemyByMachineGun(event) {
     let actual_enemy = event.target;
-    console.log(actual_enemy)
+    //console.log(actual_enemy)
     if (shooting === true) {
+        console.log(actual_enemy.dataset.health)
         MachineGunSpreadFireHit(actual_enemy, gun);
         checkEnemyKill(actual_enemy);
     } else if (shooting === false) {

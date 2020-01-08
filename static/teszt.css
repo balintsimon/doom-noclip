@@ -30,7 +30,8 @@ body{
 .enemy-1, .enemy-2, .enemy-3{
     height: 200px;
     width: 200px;
-    background: red;
+    background: transparent;
+    border:none;
     margin: 20px;
 }
 
