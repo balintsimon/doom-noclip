@@ -47,6 +47,8 @@ let enemies = [];
 function checkEnemyKill(enemy) {
     if (enemy.dataset.health <= 0) {
         stopEnemyDamage(enemy);
+        kills += 1;
+        givePlayerHealth(10);
         var imageInd = Number(enemy.dataset.enemy_type) + 1;
         enemy.setAttribute('src', `static/images/enemies/enemy-${imageInd}-death.gif`);
         setTimeout(function () {
@@ -58,6 +60,13 @@ function checkEnemyKill(enemy) {
         },1710)
     }
 }
+
+function givePlayerHealth(plusHealth) {
+    let actualHP = Number(document.getElementById('gun').dataset.hp);
+    const currentHealth = actualHP + plusHealth;
+    document.getElementById('gun').setAttribute('data-hp', currentHealth);
+}
+
 //------------------
 
 // gun
@@ -181,6 +190,7 @@ function damageEnemy(actual_enemy, damage) {
 
 function displayEnemies() {
     let enemySpawnNumber;
+    console.log(`Killed ${kills}`);
     if ( kills > 7){
         enemySpawnNumber = Math.floor(Math.random() * (11000 - (kills*1000) - 3000) + 3000); // creates a random number between 3000 and 10000 (milliseconds!)
     }else{
@@ -247,7 +257,7 @@ function damagePlayer(damage) {
     const currentHealth = actualHP - damage;
     document.getElementById('gun').setAttribute('data-hp', currentHealth);
     actualHP = Number(document.getElementById('gun').dataset.hp);
-    document.getElementById('health').innerText = "actualHP";
+    document.getElementById('health').innerText = `HP: ${actualHP}`;
     if ( actualHP <= 0 ){
         endGame()
     }
@@ -451,27 +461,3 @@ function displayMenu() { // TODO: add eventlistener to the leaderboard button at
 }
 
 displayMenu();
-
-/*
-showMenu();
-
-function render_game() {
-    let new_screen = document.getElementById("teszt");
-    new_screen.innerHTML = "";
-    let startGameFunction = startGame();
-    new_screen.innerHTML = startGameFunction;}
-
-    function showMenu() {
-    let screen = document.getElementById("teszt");
-    screen.innerHTML = "";
-    let menu_items = document.createElement("p");
-    let high_score = "<a href='/high_scores'}}'>High scores</a><br>";
-
-
-    let start_game = "<br><p class='start_button' style='background: white' onclick='render_game()'>JS High Scores</p><br>";
-
-    menu_items.innerHTML = high_score + start_game;
-
-    screen.appendChild(menu_items);
-}
-*/
