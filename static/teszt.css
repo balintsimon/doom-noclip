@@ -106,13 +106,3 @@ body{
     font-size: 50px;
     cursor: pointer;
 }
-
-
-#enemy_test {
-    position: fixed;
-    top: 30%;
-    left: 50%;
-    height: 60px;
-    width: 40px;
-    background: aqua;
-}

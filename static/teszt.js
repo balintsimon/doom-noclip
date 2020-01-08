@@ -41,8 +41,6 @@ playMusicButton.addEventListener("click", function () {
 // enemy related test
 let enemies = []
 
-
-
 function checkEnemyKill(enemy) {
 if (enemy.dataset.health <= 0) {
     enemy.textContent = "killed"
@@ -56,6 +54,7 @@ let gunStats = [];
 let shooting = false;
 let bulletTaking = false;
 let reloading = false;
+let enemyTimeout = false
 
 gunStats[1] = {
     weapon_image:'gun_1',
@@ -77,7 +76,7 @@ gunStats[2] = {
     fire_type : 'click'
 };
 
-window.onmousemove = function (e) {
+function moveWeaponOnScreen (e) {
     let gun_image = document.getElementById('gun');
     var x = e.clientX,
         y = e.clientY;
@@ -150,7 +149,16 @@ function MachineGunSpreadFireHit(actual_enemy, gun) {
 
 function displayEnemies() {
     const enemySpawnNumber = Math.floor(Math.random() * (10000 - 3000) + 3000); // creates a random number between 3000 and 10000 (milliseconds!)
-    setTimeout(checkEmptyPositions, enemySpawnNumber); // use this to run this function when the code is completed
+    enemyTimeout = setTimeout(checkEmptyPositions, enemySpawnNumber); // use this to run this function when the code is completed
+}
+
+function stopSpawnEnemies() {
+    clearTimeout(enemyTimeout)
+    enemyTimeout = false
+    console.log('Enemy spawning disabled')
+    for ( enemy of document.querySelectorAll('.enemy')){
+        (enemy.getAttribute('src') ? clearInterval(enemy.dataset.interval) : {} )
+    }
 }
 
 function checkEmptyPositions() {
@@ -200,7 +208,11 @@ function CreateEnemyMovement(actual_enemy) {
 function damagePlayer(damage) {
     var actualHP = Number(document.getElementById('gun').dataset.hp)
     document.getElementById('gun').setAttribute('data-hp', actualHP - damage)
-    document.getElementById('health').innerText = (document.getElementById('gun').dataset.hp)
+    actualHP = Number(document.getElementById('gun').dataset.hp)
+    document.getElementById('health').innerText = actualHP
+    if ( actualHP <= 0 ){
+        endGame()
+    }
 }
 
 function HitEnemyByMachineGun(event) {
@@ -216,7 +228,7 @@ function HitEnemyByMachineGun(event) {
     }
 }
 
-window.onkeydown = function (e) {
+function changeWeapon(e) {
     try {
         const key = Number(e.key);
         if (gunStats[key]) {
@@ -316,16 +328,16 @@ function holdStopShooting() {
     }
 }
 
-document.getElementById('gun').ondragstart = function() { return false; };
+function disableGunDragBug(){
+    return
+}
 
-document.getElementById('game-border').onmouseleave = function(){try{stopShooting()}catch {}};
+function disableShootOutsideWindowBug() {
+    try{stopShooting()}catch {}
+}
 
 function startGame() {
-
     const gameWindow = document.querySelector('.game-display');
-    gameWindow.addEventListener('click', shootSingle);
-    gameWindow.addEventListener('mousedown', holdShooting, true);
-    gameWindow.addEventListener('mouseup', holdStopShooting,true);
     document.getElementById('bullet_indicator').innerText = gunStats[gun].clip;
     const childs = document.getElementsByTagName('body')[0].children;
     for (let element of childs){
@@ -335,6 +347,34 @@ function startGame() {
     document.getElementById('gun').setAttribute('data-hp', 100)
     damagePlayer(0)
     displayEnemies()
+
+    // EVENT HANDLERS \\
+    window.addEventListener('mousemove', moveWeaponOnScreen)
+    window.addEventListener('keydown', changeWeapon)
+    document.getElementById('gun').addEventListener('dragstart', disableGunDragBug)
+    document.getElementById('game-border').addEventListener('mouseleave', disableShootOutsideWindowBug)
+    gameWindow.addEventListener('click', shootSingle);
+    gameWindow.addEventListener('mousedown', holdShooting, true);
+    gameWindow.addEventListener('mouseup', holdStopShooting,true);
+    // EVENT HANDLERS \\
+
+
+}
+
+function endGame() {
+    const gameWindow = document.querySelector('.game-display');
+    // EVENT HANDLER REMOVE \\
+    window.removeEventListener('mousemove', moveWeaponOnScreen)
+    window.removeEventListener('keydown', changeWeapon)
+    document.getElementById('gun').removeEventListener('dragstart', disableGunDragBug)
+    document.getElementById('game-border').removeEventListener('mouseleave', disableShootOutsideWindowBug)
+    gameWindow.removeEventListener('click', shootSingle);
+    gameWindow.removeEventListener('mousedown', holdShooting, true);
+    gameWindow.removeEventListener('mouseup', holdStopShooting,true);
+    // EVENT HANDLER REMOVE \\
+    try{stopShooting()}catch{}
+    stopSpawnEnemies();
+    // Add end game dom manipulation
 }
 
 startGame();
