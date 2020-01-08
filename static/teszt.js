@@ -63,8 +63,13 @@ function checkEnemyKill(enemy) {
 
 function givePlayerHealth(plusHealth) {
     let actualHP = Number(document.getElementById('gun').dataset.hp);
-    const currentHealth = actualHP + plusHealth;
-    document.getElementById('gun').setAttribute('data-hp', currentHealth);
+    let newHealth = 0;
+    if ((actualHP + plusHealth) > 110) {
+        newHealth = 110;
+    } else {
+        newHealth = actualHP + plusHealth;
+    }
+    document.getElementById('gun').setAttribute('data-hp', newHealth);
 }
 
 //------------------
@@ -257,7 +262,9 @@ function damagePlayer(damage) {
     const currentHealth = actualHP - damage;
     document.getElementById('gun').setAttribute('data-hp', currentHealth);
     actualHP = Number(document.getElementById('gun').dataset.hp);
-    document.getElementById('health').innerText = `HP: ${actualHP}`;
+    document.getElementById('health').innerText =
+        `HP: ${actualHP}
+        Kills: ${kills}`;
     if ( actualHP <= 0 ){
         endGame()
     }
