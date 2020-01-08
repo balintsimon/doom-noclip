@@ -44,7 +44,7 @@ function toggleMusic() {
 // enemy related test
 let enemies = [];
 
-function checkEnemyKill(enemy) {
+function killEnemy(enemy) {
     if (enemy.dataset.health <= 0) {
         stopEnemyDamage(enemy);
         kills += 1;
@@ -188,7 +188,7 @@ function damageEnemy(actual_enemy, damage) {
     if ( actual_hp > 0){
         let new_hp = actual_hp - damage;
         actual_enemy.setAttribute('data-health', new_hp);
-        checkEnemyKill(actual_enemy)
+        killEnemy(actual_enemy)
     }
     //console.log(actual_enemy + " kapott HPja: " + new_hp)
 }
@@ -275,10 +275,10 @@ function HitEnemyByMachineGun(event) {
     if (shooting === true) {
         console.log(actual_enemy.dataset.health);
         MachineGunSpreadFireHit(actual_enemy, gun);
-        checkEnemyKill(actual_enemy);
+        killEnemy(actual_enemy);
     } else if (shooting === false) {
         clearInterval(MachineGunSpreadFireHit);
-        checkEnemyKill(actual_enemy);
+        killEnemy(actual_enemy);
     }
 }
 
