@@ -2,6 +2,7 @@ const body = document.getElementById('teszt');
 var machineGunHitIntervalTimer = false;
 
 //audio
+let kills = 0
 let pistolSound = new Audio("static/sound/dspistol.wav");
 let reloadPistolSound = new Audio("static/sound/reload_gun2.mp3");
 let machinegunSound = new Audio("static/sound/gun2.mp3");
@@ -48,7 +49,10 @@ function checkEnemyKill(enemy) {
         enemy.setAttribute('src', `static/images/enemies/enemy-${imageInd}-death.gif`)
         setTimeout(function () {
             enemy.style.visibility = "hidden"
+            setTimeout(function () {
             enemy.removeAttribute('src')
+            },1000)
+
         },1710)
     }
 }
@@ -67,7 +71,7 @@ gunStats[1] = {
     clip : 30,
     fire_rate : 100,
     max_clip : 30,
-    damage : 5,
+    damage : 10,
     reload_time : 2000,
     fire_type : 'mousedown'
 };
@@ -122,7 +126,9 @@ function shootSingle() {
         pistol.setAttribute('src', '/static/images/pistolShoot.gif');
         setTimeout(() => {
             pistol.setAttribute('src', '/static/images/pistol.gif');
-            this.addEventListener('click', shootSingle);
+            if ( pistol.dataset.hp > 0){
+                this.addEventListener('click', shootSingle);
+            }
             reloading = false
         }, 250);
     }
@@ -173,7 +179,12 @@ function damageEnemy(actual_enemy, damage) {
 }
 
 function displayEnemies() {
-    const enemySpawnNumber = Math.floor(Math.random() * (10000 - 3000) + 3000); // creates a random number between 3000 and 10000 (milliseconds!)
+    let enemySpawnNumber;
+    if ( kills > 7){
+        enemySpawnNumber = Math.floor(Math.random() * (11000 - (kills*1000) - 3000) + 3000); // creates a random number between 3000 and 10000 (milliseconds!)
+    }else{
+        enemySpawnNumber = Math.floor(Math.random() * (3000 - 3000) + 3000);
+    }
     enemyTimeout = setTimeout(checkEmptyPositions, enemySpawnNumber); // use this to run this function when the code is completed
 }
 
@@ -310,7 +321,9 @@ function hitEnemyByPistol(event) {
     damageEnemy(actual_enemy, gunStats[gun].damage)
     actual_enemy.removeEventListener('mousedown', hitEnemyByPistol)
     setTimeout(function () {
-        SwitchDamageTypeOnWeaponSwitch(gun)
+        if (document.getElementById('gun').dataset.hp > 0){
+            SwitchDamageTypeOnWeaponSwitch(gun)
+        }
     },250)
 }
 
@@ -379,6 +392,7 @@ function disableShootOutsideWindowBug() {
 }
 
 function startGame() {
+    kills = 0
     const gameWindow = document.querySelector('.game-display');
     document.getElementById('bullet_indicator').innerText = gunStats[gun].clip;
     const childs = document.getElementsByTagName('body')[0].children;
