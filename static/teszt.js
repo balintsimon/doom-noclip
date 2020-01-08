@@ -187,12 +187,8 @@ function switchGun() {
 
 function SwitchDamageTypeOnWeaponSwitch(current_gun) {
     if (current_gun === 1) /*machinegun*/ {
-        enemy.addEventListener("mousedown", function (event) {
-            HitEnemyByMachineGun(event);
-        }),
-        enemy.addEventListener("mouseenter", function (event) {
-            HitEnemyByMachineGun(event);
-        }),
+        enemy.addEventListener("mousedown", HitEnemyByMachineGun);
+        enemy.addEventListener("mouseenter", HitEnemyByMachineGun);
         enemy.addEventListener("mouseout", function () {
             try {
                 clearInterval(machineGunHitIntervalTimer);
@@ -203,7 +199,7 @@ function SwitchDamageTypeOnWeaponSwitch(current_gun) {
             if (!reloading) {
                 let actual_enemy = event.target;
                 actual_enemy["health"] -= gunStats[gun].damage;
-                enemy_killed(actual_enemy);
+                checkEnemyKill(actual_enemy)
             }
         })
     }

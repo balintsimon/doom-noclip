@@ -52,6 +52,7 @@ body{
     height: 200px;
     transition: bottom 1s;
 }
+
 .bullet{
     position: relative;
     top: 85%;
