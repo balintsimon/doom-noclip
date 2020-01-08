@@ -81,6 +81,7 @@ function insertEnemyPicture(positions) {
     positions[randomIndex].setAttribute('data-health', enemyPicture[randomEnemyIndex].health);
     positions[randomIndex].setAttribute('data-miss_chance', enemyPicture[randomEnemyIndex].missChance);
     positions[randomIndex].setAttribute('data-enemy_type', randomEnemyIndex);
+    enemies = positions
     return displayEnemies();
 }
 
