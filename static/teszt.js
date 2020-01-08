@@ -161,8 +161,8 @@ function checkEmptyPositions() {
 }
 
 function insertEnemyPicture(positions) {
-    const enemyPicture = [{src :'/static/images/enemies/doom-enemy1.gif', health : 100, missChance : 20}];
-    const randomEnemyIndex = Math.floor(Math.random() * enemyPicture.length);
+    const enemyStats = [{damage : 1, health : 100, missChance : 20}];
+    const randomEnemyIndex = Math.floor(Math.random() * enemyStats.length);
     const randomIndex = Math.floor(Math.random() * positions.length);
     positions[randomIndex].ondragstart = function() { return false; };
     enemies.push(positions[randomIndex])
@@ -170,21 +170,24 @@ function insertEnemyPicture(positions) {
     SwitchDamageTypeOnWeaponSwitch(gun)
     console.log('Moving')
     CreateEnemyMovement(positions[randomIndex])
-    positions[randomIndex].setAttribute('src', enemyPicture[randomEnemyIndex].src);
-    positions[randomIndex].setAttribute('data-health', enemyPicture[randomEnemyIndex].health);
-    positions[randomIndex].setAttribute('data-miss_chance', enemyPicture[randomEnemyIndex].missChance);
+    var imageInd = (randomEnemyIndex+1)
+    positions[randomIndex].setAttribute('src', `/static/images/enemies/enemy-${imageInd}-walking.gif`);
+    positions[randomIndex].setAttribute('data-health', enemyStats[randomEnemyIndex].health);
+    positions[randomIndex].setAttribute('data-miss_chance', enemyStats[randomEnemyIndex].missChance);
     positions[randomIndex].setAttribute('data-enemy_type', randomEnemyIndex);
+    positions[randomIndex].setAttribute('data-damage',enemyStats[randomEnemyIndex].damage)
     //enemies = positions
     return displayEnemies();
 }
 
 function CreateEnemyMovement(actual_enemy) {
     setTimeout( function () {
-        console.log('Shooting')
+        var imageInd = Number(actual_enemy.dataset.enemy_type) + 1
+        actual_enemy.setAttribute('src', `/static/images/enemies/enemy-${imageInd}-attack.gif`);
         let interval = setInterval(
             function () {
                 if (actual_enemy.dataset.health > 0){
-                    (Math.floor(Math.random() * 100) <= actual_enemy.dataset.miss_chance) ? {} : console.log('Minus hp')
+                    (Math.floor(Math.random() * 100) <= actual_enemy.dataset.miss_chance) ? {} : damagePlayer(actual_enemy.dataset.damage)
                 }else{
                     clearInterval(interval)
                 }
@@ -192,6 +195,12 @@ function CreateEnemyMovement(actual_enemy) {
         )
         actual_enemy.setAttribute('data-interval', interval)
     }, 1000)
+}
+
+function damagePlayer(damage) {
+    var actualHP = Number(document.getElementById('gun').dataset.hp)
+    document.getElementById('gun').setAttribute('data-hp', actualHP - damage)
+    document.getElementById('health').innerText = (document.getElementById('gun').dataset.hp)
 }
 
 function HitEnemyByMachineGun(event) {
@@ -312,6 +321,7 @@ document.getElementById('gun').ondragstart = function() { return false; };
 document.getElementById('game-border').onmouseleave = function(){try{stopShooting()}catch {}};
 
 function startGame() {
+
     const gameWindow = document.querySelector('.game-display');
     gameWindow.addEventListener('click', shootSingle);
     gameWindow.addEventListener('mousedown', holdShooting, true);
@@ -322,6 +332,8 @@ function startGame() {
         element.style.userSelect = 'none';
     }
     SwitchDamageTypeOnWeaponSwitch(gun);
+    document.getElementById('gun').setAttribute('data-hp', 100)
+    damagePlayer(0)
     displayEnemies()
 }
 
