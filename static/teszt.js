@@ -27,15 +27,19 @@ function stopSound(sound) {
 
 //music play
 let playMusicButton = document.querySelector(".music-button");
-playMusicButton.addEventListener("click", function () {
+playMusicButton.addEventListener("click", toggleMusic);
+
+function toggleMusic() {
     if (MusicIsPlaying) {
+        this.parentNode.classList.toggle('music-on');
         MusicIsPlaying = false;
         stopSound(music);
     } else {
+        this.parentNode.classList.toggle('music-on');
         MusicIsPlaying = true;
-        playSound(music, true);
+        playSound(music, true)
     }
-});
+}
 
 // enemy related test
 let enemies = [];
