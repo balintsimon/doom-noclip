@@ -242,10 +242,10 @@ function CreateEnemyMovement(actual_enemy) {
 }
 
 function damagePlayer(damage) {
-    var actualHP = Number(document.getElementById('gun').dataset.hp)
-    document.getElementById('gun').setAttribute('data-hp', actualHP - damage)
-    actualHP = Number(document.getElementById('gun').dataset.hp)
-    document.getElementById('health').innerText = actualHP
+    var actualHP = Number(document.getElementById('gun').dataset.hp);
+    document.getElementById('gun').setAttribute('data-hp', actualHP - damage);
+    actualHP = Number(document.getElementById('gun').dataset.hp);
+    document.getElementById('health').innerText = actualHP;
     if ( actualHP <= 0 ){
         endGame()
     }
@@ -392,7 +392,7 @@ function disableShootOutsideWindowBug() {
 }
 
 function startGame() {
-    kills = 0
+    kills = 0;
     const gameWindow = document.querySelector('.game-display');
     document.getElementById('bullet_indicator').innerText = gunStats[gun].clip;
     const childs = document.getElementsByTagName('body')[0].children;
@@ -400,15 +400,15 @@ function startGame() {
         element.style.userSelect = 'none';
     }
     SwitchDamageTypeOnWeaponSwitch(gun);
-    document.getElementById('gun').setAttribute('data-hp', 100)
-    damagePlayer(0)
-    displayEnemies()
+    document.getElementById('gun').setAttribute('data-hp', 100);
+    damagePlayer(0);
+    displayEnemies();
 
     // EVENT HANDLERS \\
-    window.addEventListener('mousemove', moveWeaponOnScreen)
-    window.addEventListener('keydown', changeWeapon)
-    document.getElementById('gun').addEventListener('dragstart', disableGunDragBug)
-    document.getElementById('game-border').addEventListener('mouseleave', disableShootOutsideWindowBug)
+    window.addEventListener('mousemove', moveWeaponOnScreen);
+    window.addEventListener('keydown', changeWeapon);
+    document.getElementById('gun').addEventListener('dragstart', disableGunDragBug);
+    document.getElementById('game-border').addEventListener('mouseleave', disableShootOutsideWindowBug);
     gameWindow.addEventListener('click', shootSingle);
     gameWindow.addEventListener('mousedown', holdShooting, true);
     gameWindow.addEventListener('mouseup', holdStopShooting,true);
@@ -420,18 +420,18 @@ function startGame() {
 function endGame() {
     const gameWindow = document.querySelector('.game-display');
     // EVENT HANDLER REMOVE \\
-    window.removeEventListener('mousemove', moveWeaponOnScreen)
-    window.removeEventListener('keydown', changeWeapon)
-    document.getElementById('gun').removeEventListener('dragstart', disableGunDragBug)
-    document.getElementById('game-border').removeEventListener('mouseleave', disableShootOutsideWindowBug)
+    window.removeEventListener('mousemove', moveWeaponOnScreen);
+    window.removeEventListener('keydown', changeWeapon);
+    document.getElementById('gun').removeEventListener('dragstart', disableGunDragBug);
+    document.getElementById('game-border').removeEventListener('mouseleave', disableShootOutsideWindowBug);
     gameWindow.removeEventListener('click', shootSingle);
     gameWindow.removeEventListener('mousedown', holdShooting, true);
     gameWindow.removeEventListener('mouseup', holdStopShooting,true);
 
-    removeGunEventListeners()
+    removeGunEventListeners();
     stopSpawnEnemies();
     // EVENT HANDLER REMOVE \\
-    try{stopShooting()}catch{}
+    try{stopShooting()} catch {}
 
     // Add end game dom manipulation
 }
