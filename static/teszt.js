@@ -195,7 +195,6 @@ function damageEnemy(actual_enemy, damage) {
 
 function displayEnemies() {
     let enemySpawnNumber;
-    console.log(`Killed ${kills}`);
     if ( kills > 7){
         enemySpawnNumber = Math.floor(Math.random() * (11000 - (kills*1000) - 3000) + 3000); // creates a random number between 3000 and 10000 (milliseconds!)
     }else{
@@ -310,7 +309,7 @@ function switchGun() {
 }
 
 function SwitchDamageTypeOnWeaponSwitch(current_gun) {
-    for (const enemy of enemies){
+    for (let enemy of enemies){
         if (current_gun === 1) /*machinegun*/ {
             enemy.removeEventListener("mousedown", hitEnemyByPistol);
             enemy.addEventListener("mousedown", HitEnemyByMachineGun);
@@ -326,7 +325,7 @@ function SwitchDamageTypeOnWeaponSwitch(current_gun) {
 }
 
 function removeGunEventListeners() {
-    for (const enemy of enemies){
+    for (let enemy of enemies){
         enemy.removeEventListener("mousedown", HitEnemyByMachineGun);
         enemy.removeEventListener("mouseenter", HitEnemyByMachineGun);
         enemy.removeEventListener("mouseout", machineGunMouseOut);
@@ -347,7 +346,7 @@ function hitEnemyByPistol(event) {
 
 function machineGunMouseOut() {
     try {
-        for (const enemy of enemies){
+        for (let enemy of enemies){
             clearInterval(enemy.dataset.hit_interval);
         }
     } catch {}
@@ -453,7 +452,7 @@ function endGame() {
     removeGunEventListeners();
     stopSpawnEnemies();
     // EVENT HANDLER REMOVE \\
-    try{stopShooting()}catch{}
+    try{stopShooting()} catch {}
 
     // Add end game dom manipulation
 }
