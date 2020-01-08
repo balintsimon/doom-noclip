@@ -53,7 +53,6 @@ if (enemy.dataset.health <= 0) {
     enemy.textContent = "killed"
     }
 }
-
 //------------------
 
 // gun
@@ -154,6 +153,30 @@ function MachineGunSpreadFireHit(actual_enemy, gun) {
     }, gunStats[gun].fire_rate)
 }
 
+function displayEnemies() {
+    const enemySpawnNumber = Math.floor(Math.random() * (10000 - 3000) + 3000); // creates a random number between 3000 and 10000 (milliseconds!)
+    setTimeout(checkEmptyPositions, enemySpawnNumber); // use this to run this function when the code is completed
+}
+
+function checkEmptyPositions() {
+    const enemies = document.querySelectorAll('.enemy'); // enemy object with all the enemies inside
+    let emptyPositions = [];
+    enemies.forEach(monster => (monster.getAttribute('src')) ? {} : emptyPositions.push(monster));
+    (emptyPositions.length === 0) ? displayEnemies() : insertEnemyPicture(emptyPositions)
+}
+
+function insertEnemyPicture(positions) {
+    const enemyPicture = [{src :'/static/images/enemies/doom-enemy1.gif', health : 100, missChance : 20}];
+    const randomEnemyIndex = Math.floor(Math.random() * enemyPicture.length);
+    const randomIndex = Math.floor(Math.random() * positions.length);
+    positions[randomIndex].setAttribute('src', enemyPicture[randomEnemyIndex].src);
+    positions[randomIndex].setAttribute('data-health', enemyPicture[randomEnemyIndex].health);
+    positions[randomIndex].setAttribute('data-miss_chance', enemyPicture[randomEnemyIndex].missChance);
+    positions[randomIndex].setAttribute('data-enemy_type', randomEnemyIndex);
+    enemies = positions
+    return displayEnemies();
+}
+
 function HitEnemyByMachineGun(event) {
     let actual_enemy = event.target;
     console.log(actual_enemy)
@@ -161,7 +184,6 @@ function HitEnemyByMachineGun(event) {
         MachineGunSpreadFireHit(actual_enemy, gun);
         checkEnemyKill(actual_enemy);
     } else if (shooting === false) {
-        console.log('Not shooting')
         clearInterval(MachineGunSpreadFireHit);
         checkEnemyKill(actual_enemy);
     }
@@ -282,6 +304,7 @@ function startGame() {
         element.style.userSelect = 'none';
     }
     SwitchDamageTypeOnWeaponSwitch(gun);
+    displayEnemies()
 }
 
 startGame();
