@@ -27,8 +27,38 @@ body{
     border: 6px solid black;
 }
 
-.gun{
+.enemy-1 {
     position: absolute;
+    top: 43%;
+    left: 5%;
+    height: 250px;
+    width: 250px;
+}
+
+.enemy-2 {
+    position: absolute;
+    top: 55%;
+    height: 120px;
+    width: 120px;
+    left: 42%;
+}
+
+.enemy-3 {
+    position: absolute;
+    top: 48%;
+    left: 57%;
+    height: 180px;
+    width: 180px;
+}
+
+.enemy-1, .enemy-2, .enemy-3{
+    background: transparent;
+    border:none;
+    margin: 20px;
+}
+
+.gun{
+    position: fixed;
     bottom: 0;
     transform: translateY(0%);
     -khtml-user-select: none;
@@ -38,6 +68,7 @@ body{
     user-select: none;
     height: 200px;
     transition: bottom 1s;
+    z-index: 99;
 }
 
 
@@ -98,14 +129,4 @@ body{
     color: white;
     font-size: 50px;
     cursor: pointer;
-}
-
-
-#enemy_test {
-    position: fixed;
-    top: 30%;
-    left: 50%;
-    height: 60px;
-    width: 40px;
-    background: aqua;
 }
