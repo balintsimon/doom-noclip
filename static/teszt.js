@@ -43,9 +43,11 @@ let enemies = []
 
 function checkEnemyKill(enemy) {
     if (enemy.dataset.health <= 0) {
+        stopEnemyDamage(enemy)
         var imageInd = Number(enemy.dataset.enemy_type) + 1
         enemy.setAttribute('src', `static/images/enemies/enemy-${imageInd}-death.gif`)
         setTimeout(function () {
+            enemy.style.visibility = "hidden"
             enemy.removeAttribute('src')
         },2600)
     }
@@ -116,10 +118,12 @@ function shootSingle() {
             reloadPistol(pistol, this);
         }, 250);
     } else {
+        reloading = true
         pistol.setAttribute('src', '/static/images/pistolShoot.gif');
         setTimeout(() => {
             pistol.setAttribute('src', '/static/images/pistol.gif');
             this.addEventListener('click', shootSingle);
+            reloading = false
         }, 250);
     }
 }
@@ -143,14 +147,22 @@ function shootContinous() {
 }
 
 function MachineGunSpreadFireHit(actual_enemy, gun) {
-    machineGunHitIntervalTimer = setInterval(function() {
-        damageEnemy(actual_enemy, gunStats[gun].damage)
-    }, gunStats[gun].fire_rate)
+    actual_enemy.setAttribute('data-hit_interval',
+        setInterval(function() {
+            damageEnemy(actual_enemy, gunStats[gun].damage)
+        }, gunStats[gun].fire_rate)
+    )
+}
+
+function stopEnemyDamage(enemy) {
+    clearInterval(enemy.dataset.hit_interval)
+    enemy.setAttribute('data-hit-interval', false)
 }
 
 function damageEnemy(actual_enemy, damage) {
-    if ( reloading){try{clearInterval(machineGunHitIntervalTimer)}catch {}}
+    if ( reloading){try{clearInterval(actual_enemy.dataset.hit_interval)}catch {}}
     var actual_hp = Number(actual_enemy.dataset.health)
+    console.log(actual_enemy)
     console.log(actual_hp)
     if ( actual_hp > 0){
         var new_hp = actual_hp - damage
@@ -161,7 +173,7 @@ function damageEnemy(actual_enemy, damage) {
 }
 
 function displayEnemies() {
-    const enemySpawnNumber = Math.floor(Math.random() * (1000 - 3000) + 3000); // creates a random number between 3000 and 10000 (milliseconds!)
+    const enemySpawnNumber = Math.floor(Math.random() * (10000 - 3000) + 3000); // creates a random number between 3000 and 10000 (milliseconds!)
     enemyTimeout = setTimeout(checkEmptyPositions, enemySpawnNumber); // use this to run this function when the code is completed
 }
 
@@ -296,11 +308,17 @@ function removeGunEventListeners() {
 function hitEnemyByPistol(event) {
     const actual_enemy = event.target
     damageEnemy(actual_enemy, gunStats[gun].damage)
+    actual_enemy.removeEventListener('mousedown', hitEnemyByPistol)
+    setTimeout(function () {
+        SwitchDamageTypeOnWeaponSwitch(gun)
+    },250)
 }
 
 function machineGunMouseOut() {
     try {
-        clearInterval(machineGunHitIntervalTimer);
+        for (enemy of enemies){
+            clearInterval(enemy.dataset.hit_interval);
+        }
     } catch {}
 }
 
@@ -341,7 +359,9 @@ function stopShooting() {
     shooting = false;
     stopSound(machinegunSound);
     try {clearInterval(bulletTaking)} catch {}
-    try {clearInterval(machineGunHitIntervalTimer)} catch {}
+    for ( enemy of enemies){
+        try {clearInterval(enemy.dataset.hit_interval)} catch {}
+    }
 }
 
 function holdStopShooting() {
