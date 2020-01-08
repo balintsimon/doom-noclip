@@ -1,3 +1,5 @@
+import {menuTemplate} from "./dom.js";
+
 const body = document.getElementById('teszt');
 var machineGunHitIntervalTimer = false;
 
@@ -292,7 +294,7 @@ function switchGun() {
 }
 
 function SwitchDamageTypeOnWeaponSwitch(current_gun) {
-    for ( enemy of enemies){
+    for (const enemy of enemies){
         if (current_gun === 1) /*machinegun*/ {
             enemy.removeEventListener("mousedown", hitEnemyByPistol)
             enemy.addEventListener("mousedown", HitEnemyByMachineGun),
@@ -308,7 +310,7 @@ function SwitchDamageTypeOnWeaponSwitch(current_gun) {
 }
 
 function removeGunEventListeners() {
-    for (enemy of enemies){
+    for (const enemy of enemies){
         enemy.removeEventListener("mousedown", HitEnemyByMachineGun);
         enemy.removeEventListener("mouseenter", HitEnemyByMachineGun);
         enemy.removeEventListener("mouseout", machineGunMouseOut);
@@ -329,7 +331,7 @@ function hitEnemyByPistol(event) {
 
 function machineGunMouseOut() {
     try {
-        for (enemy of enemies){
+        for (const enemy of enemies){
             clearInterval(enemy.dataset.hit_interval);
         }
     } catch {}
@@ -372,7 +374,7 @@ function stopShooting() {
     shooting = false;
     stopSound(machinegunSound);
     try {clearInterval(bulletTaking)} catch {}
-    for ( enemy of enemies){
+    for (const enemy of enemies){
         try {clearInterval(enemy.dataset.hit_interval)} catch {}
     }
 }
@@ -391,31 +393,31 @@ function disableShootOutsideWindowBug() {
     try{stopShooting()}catch {}
 }
 
-function startGame() {
-    kills = 0
-    const gameWindow = document.querySelector('.game-display');
-    document.getElementById('bullet_indicator').innerText = gunStats[gun].clip;
-    const childs = document.getElementsByTagName('body')[0].children;
-    for (let element of childs){
-        element.style.userSelect = 'none';
-    }
-    SwitchDamageTypeOnWeaponSwitch(gun);
-    document.getElementById('gun').setAttribute('data-hp', 100)
-    damagePlayer(0)
-    displayEnemies()
-
-    // EVENT HANDLERS \\
-    window.addEventListener('mousemove', moveWeaponOnScreen)
-    window.addEventListener('keydown', changeWeapon)
-    document.getElementById('gun').addEventListener('dragstart', disableGunDragBug)
-    document.getElementById('game-border').addEventListener('mouseleave', disableShootOutsideWindowBug)
-    gameWindow.addEventListener('click', shootSingle);
-    gameWindow.addEventListener('mousedown', holdShooting, true);
-    gameWindow.addEventListener('mouseup', holdStopShooting,true);
-    // EVENT HANDLERS \\
-
-
-}
+// function startGame() {
+//     kills = 0
+//     const gameWindow = document.querySelector('.game-display');
+//     document.getElementById('bullet_indicator').innerText = gunStats[gun].clip;
+//     const childs = document.getElementsByTagName('body')[0].children;
+//     for (let element of childs){
+//         element.style.userSelect = 'none';
+//     }
+//     SwitchDamageTypeOnWeaponSwitch(gun);
+//     document.getElementById('gun').setAttribute('data-hp', 100)
+//     damagePlayer(0)
+//     displayEnemies()
+//
+//     // EVENT HANDLERS \\
+//     window.addEventListener('mousemove', moveWeaponOnScreen)
+//     window.addEventListener('keydown', changeWeapon)
+//     document.getElementById('gun').addEventListener('dragstart', disableGunDragBug)
+//     document.getElementById('game-border').addEventListener('mouseleave', disableShootOutsideWindowBug)
+//     gameWindow.addEventListener('click', shootSingle);
+//     gameWindow.addEventListener('mousedown', holdShooting, true);
+//     gameWindow.addEventListener('mouseup', holdStopShooting,true);
+//     // EVENT HANDLERS \\
+//
+//
+// }
 
 function endGame() {
     const gameWindow = document.querySelector('.game-display');
@@ -436,8 +438,14 @@ function endGame() {
     // Add end game dom manipulation
 }
 
-startGame();
+function displayMenu() {
+    const tvScreen = document.querySelector('.game-display');
+    tvScreen.classList.toggle('menu');
+    tvScreen.innerHTML = "";
+    tvScreen.innerHTML = menuTemplate();
+}
 
+displayMenu();
 
 /*
 showMenu();

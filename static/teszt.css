@@ -1,6 +1,7 @@
 body{
     height: 100%;
     background-image: url("/static/images/background.png");
+    font-family: sans-serif;
 }
 
 #bullet_indicator{
@@ -18,13 +19,32 @@ body{
     left: 41.7%;
     padding: 20px;
     overflow: hidden;
-    cursor:url("/static/images/crosshair.png"), auto;
-    background-size: cover;
-    background-position: bottom;
-   background-image: url("cropped.jpg");
     border-radius: 5% / 80%;
     box-shadow: 1px 1px 20px;
     border: 6px solid black;
+}
+
+.btn{
+    position: absolute;
+    padding: 5px 40px;
+    top: 60%;
+    left: 43%;
+    background-color: #f7f7f7f7;
+    font-size: 17px;
+    font-weight: bold;
+    border-radius: 20px;
+}
+
+.play-game{
+    cursor:url("/static/images/crosshair.png"), auto;
+    background-size: cover;
+    background-position: bottom;
+    background-image: url("cropped.jpg");
+}
+
+.game-display.menu{
+    background-image: url("/static/images/doom-menu.gif");
+    background-size: cover;
 }
 
 .enemy-1 {
