@@ -24,6 +24,17 @@ body{
     border: 6px solid black;
 }
 
+.music-button{
+    height: 175px;
+    width: 175px;
+    background-color: red;
+    position: absolute;
+    top: 36%;
+    z-index: 98;
+    border-radius: 100%;
+    cursor: pointer;
+}
+
 #play-game {
     position: absolute;
     padding: 5px 40px;
