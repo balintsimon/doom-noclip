@@ -48,11 +48,7 @@ function killEnemy(enemy) {
     if (enemy.dataset.health <= 0) {
         stopEnemyDamage(enemy);
         kills += 1;
-        if (Number(enemy.dataset.enemy_type) === 0) {
-            givePlayerHealth(10);
-        } else if (Number(enemy.dataset.enemy_type) === 1) {
-            givePlayerHealth(20);
-        }
+        givePlayerHealth(Number(enemy.dataset.hp_give));
         let imageInd = Number(enemy.dataset.enemy_type) + 1;
         enemy.setAttribute('src', `static/images/enemies/enemy-${imageInd}-death.gif`);
         setTimeout(function () {
@@ -227,7 +223,10 @@ function checkEmptyPositions() {
 }
 
 function insertEnemyPicture(positions) {
-    const enemyStats = [{damage : 1, health : 30, missChance : 20},{damage: 2, health: 120, missChance: 10}, {damage: 3, health : 140, missChance: 30}];
+    const enemyStats = [
+        {damage : 1, health : 30, missChance : 20, hitRate: 400, hpGiven: 10},
+        {damage: 2, health: 120, missChance: 10, hitRate: 800, hpGiven: 20},
+        {damage: 3, health : 140, missChance: 30, hitRate: 600, hpGiven: 30}];
     const randomEnemyIndex = Math.floor(Math.random() * enemyStats.length);
     const randomIndex = Math.floor(Math.random() * positions.length);
     positions[randomIndex].ondragstart = function() { return false; };
@@ -242,6 +241,8 @@ function insertEnemyPicture(positions) {
     positions[randomIndex].setAttribute('data-miss_chance', enemyStats[randomEnemyIndex].missChance);
     positions[randomIndex].setAttribute('data-enemy_type', randomEnemyIndex);
     positions[randomIndex].setAttribute('data-damage',enemyStats[randomEnemyIndex].damage);
+    positions[randomIndex].setAttribute('data-hit_rate',enemyStats[randomEnemyIndex].hitRate);
+    positions[randomIndex].setAttribute('data-hp_give',enemyStats[randomEnemyIndex].hpGiven);
     //enemies = positions
     return displayEnemies();
 }
@@ -258,7 +259,7 @@ function CreateEnemyMovement(actual_enemy) {
                 }else{
                     clearInterval(interval)
                 }
-            },2400/6
+            },Number(actual_enemy.dataset.hit_rate)
         );
         actual_enemy.setAttribute('data-interval', interval)
     }, 1000)
