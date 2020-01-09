@@ -50,6 +50,9 @@ function killEnemy(enemy) {
         stopEnemyDamage(enemy);
         kills += 1;
         score += Number(enemy.dataset.add_score);
+        let id = Number(enemy.dataset.enemy_type)+1;
+        let newSound = new Audio( `static/sound/enemy_sounds/enemy_${id}_death.wav`)
+        playSound(newSound, false);
         givePlayerHealth(Number(enemy.dataset.hp_give));
         let imageInd = Number(enemy.dataset.enemy_type) + 1;
         enemy.setAttribute('src', `static/images/enemies/enemy-${imageInd}-death.gif`);
@@ -192,7 +195,9 @@ function damageEnemy(actual_enemy, damage) {
     console.log(actual_hp);
     if ( actual_hp > 0){
         let new_hp = actual_hp - damage;
-        playSound(new Audio(actual_enemy.dataset.hit_sound));
+        let id = Number(actual_enemy.dataset.enemy_type)+1;
+        let newSound =new Audio( `static/sound/enemy_sounds/enemy_${id}_hit.wav`);
+        playSound(newSound, false);
         actual_enemy.setAttribute('data-health', new_hp);
         killEnemy(actual_enemy)
     }
@@ -227,7 +232,7 @@ function checkEmptyPositions() {
 
 function insertEnemyPicture(positions) {
     const enemyStats = [
-        {damage : 1, health : 30, missChance : 20, hitRate: 400, hpGiven: 10, scoreValue: 1, hitSound: "demon1hit"},
+        {damage : 1, health : 30, missChance : 20, hitRate: 400, hpGiven: 10, scoreValue: 1, hitSound: "src/"},
         {damage: 2, health: 120, missChance: 10, hitRate: 800, hpGiven: 20, scoreValue: 2, hitSound: "demon2hit"},
         {damage: 3, health : 140, missChance: 30, hitRate: 600, hpGiven: 30, scoreValue: 4, hitSound: "demon3hit"},
         {damage: 200, health: 150, missChance: 10, hitRate: 3000, hpGiven: 50, scoreValue: 100, hitSound: "demon4hit"}
@@ -262,7 +267,7 @@ function CreateEnemyMovement(actual_enemy) {
             function () {
                 let chance = (Math.floor(Math.random() * 100));
                 if (actual_enemy.dataset.health > 0){
-                    (chance <= Number(actual_enemy.dataset.miss_chance)) ? console.log("missed") : damagePlayer(actual_enemy.dataset.damage);
+                    (chance <= Number(actual_enemy.dataset.miss_chance)) ? console.log("missed") : damagePlayer(actual_enemy.dataset.damage, actual_enemy);
                 }else{
                     clearInterval(interval)
                 }
@@ -272,9 +277,12 @@ function CreateEnemyMovement(actual_enemy) {
     }, 1000)
 }
 
-function damagePlayer(damage) {
+function damagePlayer(damage, actual_enemy) {
     let actualHP = Number(document.getElementById('gun').dataset.hp);
     const currentHealth = actualHP - damage;
+    let id = Number(actual_enemy.dataset.enemy_type)+1;
+    let newSound =new Audio( `static/sound/enemy_sounds/enemy_${id}_attack.wav`);
+    playSound(newSound, false);
     document.getElementById('gun').setAttribute('data-hp', currentHealth);
     actualHP = Number(document.getElementById('gun').dataset.hp);
     document.getElementById('health').innerText =
@@ -453,7 +461,6 @@ function startGame() {
     }
     SwitchDamageTypeOnWeaponSwitch(gun);
     document.getElementById('gun').setAttribute('data-hp', 100);
-    damagePlayer(0);
     displayEnemies();
 
     // EVENT HANDLERS \\
@@ -491,6 +498,8 @@ function endGame() {
     gameWindow.innerHTML = "";
     gameWindow.innerHTML = deathScreen(score);
     console.log("died");
+    let deathSound = new Audio("static/sound/dspistol.wav");
+    playSound(deathSound, true);
 
     // Add end game dom manipulation
 }
