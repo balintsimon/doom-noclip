@@ -192,6 +192,7 @@ function damageEnemy(actual_enemy, damage) {
     console.log(actual_hp);
     if ( actual_hp > 0){
         let new_hp = actual_hp - damage;
+        playSound(new Audio(actual_enemy.dataset.hit_sound));
         actual_enemy.setAttribute('data-health', new_hp);
         killEnemy(actual_enemy)
     }
@@ -226,10 +227,10 @@ function checkEmptyPositions() {
 
 function insertEnemyPicture(positions) {
     const enemyStats = [
-        {damage : 1, health : 30, missChance : 20, hitRate: 400, hpGiven: 10, scoreValue: 1},
-        {damage: 2, health: 120, missChance: 10, hitRate: 800, hpGiven: 20, scoreValue: 2},
-        {damage: 3, health : 140, missChance: 30, hitRate: 600, hpGiven: 30, scoreValue: 4},
-        {damage: 200, health: 100, missChance: 10, hitRate: 5000, hpGiven: 100, scoreValue: 100}
+        {damage : 1, health : 30, missChance : 20, hitRate: 400, hpGiven: 10, scoreValue: 1, hitSound: "demon1hit"},
+        {damage: 2, health: 120, missChance: 10, hitRate: 800, hpGiven: 20, scoreValue: 2, hitSound: "demon2hit"},
+        {damage: 3, health : 140, missChance: 30, hitRate: 600, hpGiven: 30, scoreValue: 4, hitSound: "demon3hit"},
+        {damage: 200, health: 150, missChance: 10, hitRate: 3000, hpGiven: 50, scoreValue: 100, hitSound: "demon4hit"}
         ];
     const randomEnemyIndex = Math.floor(Math.random() * enemyStats.length);
     const randomIndex = Math.floor(Math.random() * positions.length);
@@ -248,6 +249,7 @@ function insertEnemyPicture(positions) {
     positions[randomIndex].setAttribute('data-hit_rate',enemyStats[randomEnemyIndex].hitRate);
     positions[randomIndex].setAttribute('data-hp_give',enemyStats[randomEnemyIndex].hpGiven);
     positions[randomIndex].setAttribute('data-add_score',enemyStats[randomEnemyIndex].scoreValue);
+    positions[randomIndex].setAttribute('data-hit_sound',enemyStats[randomEnemyIndex].hitSound);
     //enemies = positions
     return displayEnemies();
 }

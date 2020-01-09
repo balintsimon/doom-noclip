@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>High scores</title>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='icon.gif') }}">
     <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
     <link href="/static/teszt.css" type="text/css" rel="stylesheet">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
@@ -32,9 +33,13 @@
 
 
             <table class="table table-borderless table-dark" id="high_scores_table_death">
-                {%  for user in users  %}
+                {%  for i in range (0, 4)  %}
                     <tr>
-                        <td bgcolor="white">{{ user['name'] }} {{ user['high_score'] }}</td>
+                        {% if i == 0 %}
+                            <td bgcolor="white">{{ users[i]['name'] }} the Doomslayer</td><td bgcolor="white">{{ users[i]['high_score'] }}</td>
+                        {% else %}
+                            <td bgcolor="white">{{ users[i]['name'] }}</td><td bgcolor="white">{{ users[i]['high_score'] }}</td>
+                        {% endif %}
                     </tr>
                 {% endfor %}
             </table>
