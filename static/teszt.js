@@ -1,7 +1,5 @@
 import {menuTemplate, gameTemplate, deathScreen} from "./dom.js";
 
-const body = document.getElementById('teszt'); // ezek kellenek?
-let machineGunHitIntervalTimer = false;
 
 //audio
 let kills = 0;
@@ -53,7 +51,7 @@ function killEnemy(enemy) {
         kills += 1;
         score += Number(enemy.dataset.add_score);
         let id = Number(enemy.dataset.enemy_type)+1;
-        let newSound = new Audio( `static/sound/enemy_sounds/enemy_${id}_death.wav`)
+        let newSound = new Audio( `static/sound/enemy_sounds/enemy_${id}_death.wav`);
         playSound(newSound, false);
         givePlayerHealth(Number(enemy.dataset.hp_give));
         let imageInd = Number(enemy.dataset.enemy_type) + 1;
@@ -186,12 +184,12 @@ function MachineGunSpreadFireHit(actual_enemy, gun) {
 }
 
 function stopEnemyDamage(enemy) {
-    clearInterval(enemy.dataset.hit_interval);
+    clearInterval(Number(enemy.dataset.hit_interval));
     enemy.setAttribute('data-hit-interval', false)
 }
 
 function damageEnemy(actual_enemy, damage) {
-    if ( reloading){try{clearInterval(actual_enemy.dataset.hit_interval)}catch {}}
+    if ( reloading){try{clearInterval(Number(actual_enemy.dataset.hit_interval))}catch {}}
     let actual_hp = Number(actual_enemy.dataset.health);
     console.log(actual_enemy);
     console.log(actual_hp);
@@ -221,7 +219,7 @@ function stopSpawnEnemies() {
     enemyTimeout = false;
     console.log('Enemy spawning disabled');
     for (let enemy of document.querySelectorAll('.enemy')){
-        (enemy.getAttribute('src') ? clearInterval(enemy.dataset.interval) : {} )
+        (enemy.getAttribute('src') ? clearInterval(Number(enemy.dataset.interval)) : {} )
     }
 }
 
@@ -247,7 +245,7 @@ function insertEnemyPicture(positions) {
     SwitchDamageTypeOnWeaponSwitch(gun);
     console.log('Moving');
     CreateEnemyMovement(positions[randomIndex]);
-    var imageInd = (randomEnemyIndex+1);
+    let imageInd = (randomEnemyIndex+1);
     positions[randomIndex].setAttribute('src', `/static/images/enemies/enemy-${imageInd}-walking.gif`);
     positions[randomIndex].setAttribute('data-health', enemyStats[randomEnemyIndex].health);
     positions[randomIndex].setAttribute('data-miss_chance', enemyStats[randomEnemyIndex].missChance);
@@ -317,9 +315,9 @@ function changeWeapon(e) {
             switchGun()
         }
     } catch {}
-    console.log("Key : " + e.key )
+    console.log("Key : " + e.key );
     if (e.key === "r"){
-        if ( gunStats[gun].clip == gunStats[gun].max_clip){return}
+        if ( gunStats[gun].clip === gunStats[gun].max_clip){return}
         if (gunStats[gun].fire_type === "click" ){
             reloadPistol()
         }else{
@@ -383,7 +381,7 @@ function machineGunMouseOut() {
     console.log(this);
     try {
         for (let enemy of enemies){
-            clearInterval(enemy.dataset.hit_interval);
+            clearInterval(Number(enemy.dataset.hit_interval));
         }
     } catch {}
 }
@@ -392,7 +390,7 @@ function reloadPistol() {
     document.getElementById('bullet_indicator').innerText = 'Reloading';
     playSound(reloadPistolSound, false);
     document.getElementById('gun').setAttribute('src', '/static/images/pistolReload.gif');
-    reloading = true
+    reloading = true;
     setTimeout(() => {
         document.getElementById('gun').setAttribute('src', '/static/images/pistol.gif');
         document.getElementById('teszt').addEventListener('click', shootSingle);
@@ -429,7 +427,7 @@ function stopShooting() {
     stopSound(machinegunSound);
     try {clearInterval(bulletTaking)} catch {}
     for (const enemy of enemies){
-        try {clearInterval(enemy.dataset.hit_interval)} catch {}
+        try {clearInterval(Number(enemy.dataset.hit_interval))} catch {}
     }
 }
 
