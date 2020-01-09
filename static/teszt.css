@@ -5,6 +5,28 @@ body{
 }
 
 #bullet_indicator{
+    position: absolute;
+    left: 73%;
+    top: 90%;
+    background-color: black;
+
+    z-index: 99;
+    text-align: left;
+
+    font-family: 'Consolas', 'Deja Vu Sans Mono', 'Bitstream Vera Sans Mono', monospace;
+    font-size: 36px;
+    text-shadow: 2px 2px #000000;
+}
+
+#health {
+    position: absolute;
+    right: 80%;
+    top: 90%;
+    background-color: red;
+    padding: 2px;
+    border-radius: 2px;
+    z-index: 99;
+
     font-family: 'Consolas', 'Deja Vu Sans Mono', 'Bitstream Vera Sans Mono', monospace;
     font-size: 36px;
     text-shadow: 2px 2px #000000;
@@ -248,3 +270,4 @@ body{
     top: 70%;
     transform: translate(-50%, -50%);
 }
+

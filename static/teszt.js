@@ -1,5 +1,11 @@
 import {menuTemplate, gameTemplate, deathScreen} from "./dom.js";
 
+let reloadText = "Reload";
+function reloadGunIcon() {
+    let iconPlace = document.getElementById("bullet_indicator");
+    iconPlace.innerText = "";
+    iconPlace.innerHTML = '<img style="max-width: 20px" src="static/loading.gif" alt="{{ reloadText }}">';
+}
 
 //audio
 let kills = 0;
@@ -285,9 +291,7 @@ function damagePlayer(damage, actual_enemy) {
     document.getElementById('gun').setAttribute('data-hp', currentHealth);
     actualHP = Number(document.getElementById('gun').dataset.hp);
     document.getElementById('health').innerText =
-        `HP: ${actualHP}
-        Kills: ${kills}
-        Score: ${score}`;
+        `${actualHP}`;
     if ( actualHP <= 0 ){
         endGame()
     }
@@ -387,7 +391,8 @@ function machineGunMouseOut() {
 }
 
 function reloadPistol() {
-    document.getElementById('bullet_indicator').innerText = 'Reloading';
+    reloadGunIcon();
+    //document.getElementById('bullet_indicator').innerText = reloadText;
     playSound(reloadPistolSound, false);
     document.getElementById('gun').setAttribute('src', '/static/images/pistolReload.gif');
     reloading = true;
@@ -407,7 +412,7 @@ function reloadMachinegun() {
     reloading = true;
     stopShooting();
     gunStats[gun].clip = gunStats[gun].max_clip;
-    document.getElementById('bullet_indicator').innerText = 'Reloading';
+    document.getElementById('bullet_indicator').innerText = reloadText;
     playSound(reloadMachinegunSound,false);
     playSound(cockMachinegunSound, false);
 
