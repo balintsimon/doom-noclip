@@ -91,7 +91,7 @@ gunStats[1] = {
     clip : 30,
     fire_rate : 100,
     max_clip : 30,
-    damage : 20,
+    damage : 10,
     reload_time : 2000,
     fire_type : 'mousedown'
 };
@@ -227,7 +227,7 @@ function checkEmptyPositions() {
 }
 
 function insertEnemyPicture(positions) {
-    const enemyStats = [{damage : 1, health : 100, missChance : 20},{damage: 2, health: 120, missChance: 10}, {damage: 3, health : 140, missChance: 30}];
+    const enemyStats = [{damage : 1, health : 30, missChance : 20},{damage: 2, health: 120, missChance: 10}, {damage: 3, health : 140, missChance: 30}];
     const randomEnemyIndex = Math.floor(Math.random() * enemyStats.length);
     const randomIndex = Math.floor(Math.random() * positions.length);
     positions[randomIndex].ondragstart = function() { return false; };
