@@ -424,7 +424,7 @@ function startGame() {
         element.style.userSelect = 'none';
     }
     SwitchDamageTypeOnWeaponSwitch(gun);
-    document.getElementById('gun').setAttribute('data-hp', 100);
+    document.getElementById('gun').setAttribute('data-hp', 10);
     damagePlayer(0);
     displayEnemies();
 
@@ -456,6 +456,9 @@ function endGame() {
     stopSpawnEnemies();
     // EVENT HANDLER REMOVE \\
     try{stopShooting()} catch {}
+    gameWindow.innerHTML = "";
+    gameWindow.innerHTML = deathScreen(kills);
+    console.log("died");
 
     // Add end game dom manipulation
 }

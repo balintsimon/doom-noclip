@@ -5,14 +5,11 @@ import connection
 
 @connection.connection_handler
 def create_user(cursor, username, highscore):
-    try:
-        cursor.execute("""
-        INSERT INTO users
-        VALUES (DEFAULT , %(username)s, %(registration_time)s, %(high_score)s);
-        """, {'username': username,
-              'high_score': highscore})
-    except psycopg2.errors.UniqueViolation:
-        return False
+    cursor.execute("""
+    INSERT INTO users
+    VALUES (DEFAULT, %(name)s, %(high_score)s);
+    """, {'name': username,
+          'high_score': highscore})
     return True
 
 
@@ -69,8 +66,8 @@ def get_user_highscore(cursor, username):
 def write_new_highscore(cursor, username, highscore):
     cursor.execute("""
     UPDATE users
-    SET highscore = %(highscore)s
-    WHERE username = %(username)s""",
+    SET high_score = %(highscore)s
+    WHERE name = %(username)s""",
    {'highscore': highscore,
     'username': username})
 

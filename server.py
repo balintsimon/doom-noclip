@@ -9,20 +9,21 @@ def index():
 
     if request.method == "POST":
         username = request.form.get('username')
-        new_highscore = request.form.get('score')
-        if data_manager.get_user(username):
-            data_manager.create_user(username, new_highscore)
+        player_score = int(request.form.get('score'))
+        print(player_score)
+        print(all_high_scores[0]['high_score'])
+        if not data_manager.get_user(username):
+            print("got here")
+            data_manager.create_user(username, player_score)
         else:
-            new_highscore = request.form.get('highscore')
             current_highscore = data_manager.get_user_highscore(username)
-            if new_highscore > current_highscore:
-                data_manager.write_new_highscore(username, new_highscore)
+            print(current_highscore)
+            if player_score > current_highscore['high_score']:
+                data_manager.write_new_highscore(username, player_score)
         return render_template('index.html',
                                all_high_scores=all_high_scores,
                                username=username,
-                               data_manager=data_manager,
-                               current_highscore=current_highscore,
-                               new_highscore=new_highscore)
+                               new_highscore=player_score)
 
     return render_template('index.html',
                            users=all_high_scores)
