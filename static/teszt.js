@@ -43,7 +43,7 @@ playMusicButton.addEventListener("click", function () {
 let enemies = []
 
 function checkEnemyKill(enemy) {
-    if (enemy.dataset.health <= 0) {
+    if (enemy.dataset.health == 0) {
         stopEnemyDamage(enemy)
         var imageInd = Number(enemy.dataset.enemy_type) + 1
         enemy.setAttribute('src', `static/images/enemies/enemy-${imageInd}-death.gif`)
@@ -161,6 +161,7 @@ function MachineGunSpreadFireHit(actual_enemy, gun) {
 }
 
 function stopEnemyDamage(enemy) {
+    //try{clearTimeout(enemy.dataset.hit-timeout)}catch{}
     clearInterval(enemy.dataset.hit_interval)
     enemy.setAttribute('data-hit-interval', false)
 }
@@ -173,6 +174,7 @@ function damageEnemy(actual_enemy, damage) {
     if ( actual_hp > 0){
         var new_hp = actual_hp - damage
         actual_enemy.setAttribute('data-health', new_hp)
+        var imageInd = Number(actual_enemy.dataset.enemy_type) + 1;
         checkEnemyKill(actual_enemy)
     }
     //console.log(actual_enemy + " kapott HPja: " + new_hp)
