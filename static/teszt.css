@@ -83,10 +83,11 @@ body{
 
 .enemy-2 {
     position: absolute;
-    top: 55%;
+    top: 52%;
     height: 120px;
     width: 120px;
     left: 42%;
+    z-index: 99;
 }
 
 .enemy-3 {
@@ -112,9 +113,9 @@ body{
     -moz-user-select: none;
     -webkit-user-select: none;
     user-select: none;
-    height: 200px;
+    height: 120px;
     transition: bottom 1s;
-    z-index: 99;
+    z-index: 98;
 }
 
 
@@ -126,7 +127,7 @@ body{
     -moz-user-select: none;
     -webkit-user-select: none;
     user-select: none;
-    height: 200px;
+    height: 120px;
     transition: bottom 1s;
 }
 
@@ -153,6 +154,10 @@ body{
     background-blend-mode: luminosity;
 }
 
+.gun.shooting {
+    height: 140px;
+}
+
 
 .machine-gun-reload {
     position: absolute;
@@ -162,7 +167,7 @@ body{
     -moz-user-select: none;
     -webkit-user-select: none;
     user-select: none;
-    height: 200px;
+    height: 120px;
     transition: bottom 0.5s;
 }
 

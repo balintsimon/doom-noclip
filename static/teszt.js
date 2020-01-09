@@ -151,10 +151,12 @@ function shootSingle() {
 
 function shootContinous() {
     if (reloading) {return}
-    document.getElementById('gun').setAttribute('src', "static/" + gunStats[gun].weapon_image + ".gif");
+    const machineGun = document.getElementById('gun');
+    machineGun.setAttribute('src', "static/" + gunStats[gun].weapon_image + ".gif");
+    machineGun.classList.toggle('shooting');
     shooting = true;
 
-    playSound(machinegunSound, true)
+    playSound(machinegunSound, true);
     gunStats[gun].clip -= 1;
     document.getElementById('bullet_indicator').innerText = gunStats[gun].clip;
 
@@ -163,7 +165,10 @@ function shootContinous() {
     bulletTaking = setInterval( function () {
         gunStats[gun].clip -= 1;
         document.getElementById('bullet_indicator').innerText = gunStats[gun].clip;
-        if (gunStats[gun].clip <= 0){reloadMachinegun()}
+        if (gunStats[gun].clip <= 0){
+            machineGun.classList.toggle('shooting');
+            reloadMachinegun()
+        }
     }, gunStats[gun].fire_rate)
 }
 
@@ -346,6 +351,7 @@ function hitEnemyByPistol(event) {
 }
 
 function machineGunMouseOut() {
+    console.log(this);
     try {
         for (let enemy of enemies){
             clearInterval(enemy.dataset.hit_interval);
@@ -367,7 +373,9 @@ function reloadPistol(pistol, gameWindow) {
 }
 
 function reloadMachinegun() {
-    document.querySelector('.gun').classList.toggle('machine-gun-reload');
+    const machineGun = document.querySelector('.gun');
+    // machineGun.classList.toggle('shooting');
+    machineGun.classList.toggle('machine-gun-reload');
     reloading = true;
     stopShooting();
     gunStats[gun].clip = gunStats[gun].max_clip;
@@ -384,7 +392,9 @@ function reloadMachinegun() {
 }
 
 function stopShooting() {
-    document.getElementById('gun').setAttribute('src', "static/" + gunStats[gun].weapon_image + ".png");
+    const machineGun = document.getElementById('gun');
+    machineGun.setAttribute('src', "static/" + gunStats[gun].weapon_image + ".png");
+    machineGun.classList.toggle('shooting');
     shooting = false;
     stopSound(machinegunSound);
     try {clearInterval(bulletTaking)} catch {}
