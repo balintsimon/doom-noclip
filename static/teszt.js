@@ -220,7 +220,7 @@ function checkEmptyPositions() {
 }
 
 function insertEnemyPicture(positions) {
-    const enemyStats = [{damage : 1, health : 100, missChance : 20}];
+    const enemyStats = [{damage : 1, health : 100, missChance : 20},{damage: 2, health: 120, missChance: 10}];
     const randomEnemyIndex = Math.floor(Math.random() * enemyStats.length);
     const randomIndex = Math.floor(Math.random() * positions.length);
     positions[randomIndex].ondragstart = function() { return false; };
@@ -241,7 +241,7 @@ function insertEnemyPicture(positions) {
 
 function CreateEnemyMovement(actual_enemy) {
     setTimeout( function () {
-        var imageInd = Number(actual_enemy.dataset.enemy_type) + 1;
+        const imageInd = Number(actual_enemy.dataset.enemy_type) + 1;
         actual_enemy.setAttribute('src', `/static/images/enemies/enemy-${imageInd}-attack.gif`);
         let interval = setInterval(
             function () {
@@ -371,13 +371,11 @@ function reloadMachinegun() {
     reloading = true;
     stopShooting();
     gunStats[gun].clip = gunStats[gun].max_clip;
-    //body.style.cursor = 'wait';
     document.getElementById('bullet_indicator').innerText = 'Reloading';
     playSound(reloadMachinegunSound,false);
     playSound(cockMachinegunSound, false);
 
     let reloadTimer = setInterval(function () {
-        //body.style.cursor = 'crosshair';
         document.querySelector('.gun').classList.toggle('machine-gun-reload');
         reloading = false;
         document.getElementById('bullet_indicator').innerText = gunStats[gun].clip;

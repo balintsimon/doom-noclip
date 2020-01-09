@@ -27,12 +27,15 @@ body{
 .music-button{
     height: 175px;
     width: 175px;
-    background-color: red;
     position: absolute;
     top: 36%;
     z-index: 98;
     border-radius: 100%;
     cursor: pointer;
+}
+
+.game-border.music-on {
+    background-image: url("/static/tv_sound_on.png");
 }
 
 #play-game {
