@@ -1,37 +1,294 @@
+body{
+    height: 100%;
+    background-image: url("/static/images/background.png");
+    font-family: sans-serif;
+}
+
+#bullet_indicator{
+    padding-left: 10px;
+}
+
 .game-display {
-  background: black;
-  color: white;
-  width: 95%;
-  height: 70%;
-  transform: translate(-50%, -50%);
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  padding: 20px;
-  overflow: auto;
-    cursor:crosshair;
+    width: 982px;
+    height: 560px;
+    transform: translate(-50%, -50%);
+    position: absolute;
+    top: 47%;
+    left: 41.7%;
+    padding: 20px;
+    overflow: hidden;
+    border-radius: 5% / 80%;
+    box-shadow: 1px 1px 20px;
+    border: 6px solid black;
+}
+
+.music-button{
+    height: 175px;
+    width: 175px;
+    position: absolute;
+    top: 36%;
+    z-index: 98;
+    border-radius: 100%;
+    cursor: pointer;
+}
+
+.game-border.music-on {
+    background-image: url("/static/tv_sound_on.png");
+}
+
+#play-game {
+    position: absolute;
+    padding: 5px 40px;
+    top: 60%;
+    left: 43%;
+    background-color: #f7f7f7f7;
+    font-size: 17px;
+    font-weight: bold;
+    border-radius: 20px;
+}
+
+#leaderboards {
+    position: absolute;
+    padding: 5px 40px;
+    top: 75%;
+    left: 38.5%;
+    background-color: #f7f7f7f7;
+    font-size: 17px;
+    font-weight: bold;
+    border-radius: 20px;
+}
+
+.play-game{
+    cursor:url("/static/images/crosshair.png"), auto;
+    background-size: cover;
+    background-position: bottom;
+    background-image: url("cropped.jpg");
+}
+
+.game-display.menu{
+    background-size: cover;
+    background-color: black;
+    background-image: url("/static/images/doom-menu.gif");
+}
+
+.enemy-1 {
+    position: absolute;
+    top: 43%;
+    left: 5%;
+    height: 250px;
+    width: 250px;
+}
+
+.enemy-2 {
+    position: absolute;
+    top: 52%;
+    height: 120px;
+    width: 120px;
+    left: 42%;
+    z-index: 99;
+}
+
+.enemy-3 {
+    position: absolute;
+    top: 48%;
+    left: 57%;
+    height: 180px;
+    width: 180px;
+}
+
+.enemy-1, .enemy-2, .enemy-3{
+    background: transparent;
+    border:none;
+    margin: 20px;
 }
 
 .gun{
     position: fixed;
     bottom: 0;
+    transform: translateY(0%);
     -khtml-user-select: none;
     -o-user-select: none;
     -moz-user-select: none;
     -webkit-user-select: none;
     user-select: none;
-    height: 200px;
+    height: 120px;
+    transition: bottom 1s;
+    z-index: 98;
+}
+
+
+.gun-switch{
+    position: absolute;
+    bottom: -200px;
+    -khtml-user-select: none;
+    -o-user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    user-select: none;
+    height: 120px;
+    transition: bottom 1s;
+}
+
+.bullet{
+    position: relative;
+    top: 85%;
+    left: 40%;
+    height: 50px;
+    width: 25px;
 }
 
 .game-border{
-  position: fixed;
-  background: white;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+  position: absolute;
+  top: 57.5%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   height: 800px;
-  width: 1200px;
+  width: 1400px;
   margin: 0 auto;
   padding: 20px;
-  overflow: auto;
+  overflow: hidden;
+  background-image: url("/static/images/tv.png");
+    background-size: cover;
+    background-blend-mode: luminosity;
+}
+
+.gun.shooting {
+    height: 140px;
+}
+
+
+.machine-gun-reload {
+    position: absolute;
+    bottom: -200px;
+    -khtml-user-select: none;
+    -o-user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    user-select: none;
+    height: 120px;
+    transition: bottom 0.5s;
+}
+
+.music-button{
+    position: absolute;
+    left: 5%;
+}
+
+#music-button {
+    color: white;
+    font-size: 50px;
+    cursor: pointer;
+}
+
+#high_scores {
+    width: 982px;
+    height: 560px;
+    transform: translate(-50%, -50%);
+    position: absolute;
+    top: 47%;
+    left: 41.7%;
+    padding: 20px;
+    overflow: hidden;
+    border-radius: 5% / 80%;
+    box-shadow: 1px 1px 20px;
+    border: 6px solid black;
+    background-image: url("http://eskipaper.com/images/doom-wallpaper-1.jpg");
+    background-size: cover;
+    opacity: 1;
+}
+
+#back-to-main {
+    position: absolute;
+    top: 80%;
+    left: 80%;
+    border: 1px solid black;
+    opacity: 0.8;
+}
+
+#high_scores_table {
+    width: 200px;
+    opacity: 0.8;
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%);
+    top: 10%;
+}
+
+#high_scores_table_death {
+    width: 200px;
+    opacity: 0.8;
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%);
+    top: 30%;
+    color: black;
+}
+
+#user_new_high {
+    width: 200px;
+    opacity: 0.8;
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%);
+}
+
+#user_name_input_field {
+    padding-top: 240px;
+    position: absolute;
+    left: 50%;
+    top: 100%;
+    transform: translate(-50%);
+}
+
+#player_name_input_submit_button {
+    position: absolute;
+    left: 50%;
+    top: 70%;
+    transform: translate(-50%, -50%);
+}
+
+.player-health {
+    position: absolute;
+    height: 50px;
+    width: 50px;
+    display: flex;
+    color: #f7f7f7f7;
+    font-weight: bold;
+    font-size: 30px;
+    top: 2%;
+    left: 3%;
+}
+
+.health-logo {
+    padding-right: 5px;
+}
+
+.player-ammo {
+    position: absolute;
+    color: #f7f7f7f7;
+    height: 50px;
+    width: 50px;
+    font-weight: bold;
+    font-size: 30px;
+    top: 2%;
+    left: 90%;
+    display: flex;
+}
+
+.game-display.death-screen {
+    background-image: url("/static/images/game-over.gif");
+    background-size: cover;
+    background-position: bottom;
+}
+
+.input-group-text {
+    background-color: #222;
+    color: #f7f7f7f7;
+    font-weight: bold;
+}
+
+btn btn-dark {
+    background-color: #222;
+    color: #f7f7f7f7;
+    font-weight: bold;
 }
