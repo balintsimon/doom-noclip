@@ -228,7 +228,9 @@ function insertEnemyPicture(positions) {
     const enemyStats = [
         {damage : 1, health : 30, missChance : 20, hitRate: 400, hpGiven: 10, scoreValue: 1},
         {damage: 2, health: 120, missChance: 10, hitRate: 800, hpGiven: 20, scoreValue: 2},
-        {damage: 3, health : 140, missChance: 30, hitRate: 600, hpGiven: 30, scoreValue: 4}];
+        {damage: 3, health : 140, missChance: 30, hitRate: 600, hpGiven: 30, scoreValue: 4},
+        {damage: 200, health: 100, missChance: 10, hitRate: 5000, hpGiven: 100, scoreValue: 100}
+        ];
     const randomEnemyIndex = Math.floor(Math.random() * enemyStats.length);
     const randomIndex = Math.floor(Math.random() * positions.length);
     positions[randomIndex].ondragstart = function() { return false; };
