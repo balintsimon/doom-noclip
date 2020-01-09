@@ -53,7 +53,7 @@ function killEnemy(enemy) {
         } else if (Number(enemy.dataset.enemy_type) === 1) {
             givePlayerHealth(20);
         }
-        var imageInd = Number(enemy.dataset.enemy_type) + 1;
+        let imageInd = Number(enemy.dataset.enemy_type) + 1;
         enemy.setAttribute('src', `static/images/enemies/enemy-${imageInd}-death.gif`);
         setTimeout(function () {
             enemy.style.visibility = "hidden";
@@ -141,7 +141,7 @@ function shootSingle() {
             reloadPistol(pistol, this);
         }, 250);
     } else {
-        reloading = true
+        reloading = true;
         pistol.setAttribute('src', '/static/images/pistolShoot.gif');
         setTimeout(() => {
             pistol.setAttribute('src', '/static/images/pistol.gif');
