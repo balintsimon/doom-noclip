@@ -11,11 +11,9 @@ def index():
         username = request.form.get('username')
         player_score = int(request.form.get('score'))
         if not data_manager.get_user(username):
-            print("got here")
             data_manager.create_user(username, player_score)
         else:
             current_highscore = data_manager.get_user_highscore(username)
-            print(current_highscore)
             if player_score > current_highscore['high_score']:
                 data_manager.write_new_highscore(username, player_score)
 
@@ -35,15 +33,6 @@ def show_high_scores():
     return render_template('high_scores.html',
                            users=all_high_scores)
 
-
-@app.route('/new-high-score', methods=['POST', 'GET'])
-def new_high_score():
-    if request.method == 'POST':
-        player_name = request.form.get('username')
-        score = request.form.get('score')
-        return render_template('high_scores.html')
-
-    pass
 
 if __name__ == '__main__':
     app.run(debug=True)
