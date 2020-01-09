@@ -21,7 +21,7 @@
                     {% elif new_highscore == users[0]['high_score'] %}
                         You matched the high score!
                     {% elif users | length > 4 %}
-                            {% if (new_highscore|int) >= (users[4]['high_score']|int) %}
+                            {% if (new_highscore|int) > (users[4]['high_score']|int) %}
                                 You are in the top 5
                             {% else %}
                                 You missed the top 5
