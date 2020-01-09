@@ -136,9 +136,7 @@ function shootSingle() {
     if (gunStats[gun].clip === 0) {
         pistol.setAttribute('src', '/static/images/pistolShoot.gif');
         setTimeout(() => {
-            document.getElementById('bullet_indicator').innerText = 'Reloading';
-            reloading = true;
-            reloadPistol(pistol, this);
+            reloadPistol();
         }, 250);
     } else {
         reloading = true;
@@ -301,6 +299,15 @@ function changeWeapon(e) {
             switchGun()
         }
     } catch {}
+    console.log("Key : " + e.key )
+    if (e.key === "r"){
+        if ( gunStats[gun].clip == gunStats[gun].max_clip){return}
+        if (gunStats[gun].fire_type === "click" ){
+            reloadPistol()
+        }else{
+            reloadMachinegun()
+        }
+    }
 }
 
 function switchGun() {
@@ -363,13 +370,14 @@ function machineGunMouseOut() {
     } catch {}
 }
 
-function reloadPistol(pistol, gameWindow) {
+function reloadPistol() {
+    document.getElementById('bullet_indicator').innerText = 'Reloading';
     playSound(reloadPistolSound, false);
-    pistol.setAttribute('src', '/static/images/pistolReload.gif');
-
+    document.getElementById('gun').setAttribute('src', '/static/images/pistolReload.gif');
+    reloading = true
     setTimeout(() => {
-        pistol.setAttribute('src', '/static/images/pistol.gif');
-        gameWindow.addEventListener('click', shootSingle);
+        document.getElementById('gun').setAttribute('src', '/static/images/pistol.gif');
+        document.getElementById('teszt').addEventListener('click', shootSingle);
         gunStats[gun].clip = gunStats[gun].max_clip;
         reloading = false;
         document.getElementById('bullet_indicator').innerText = gunStats[gun].clip;
@@ -441,11 +449,15 @@ function startGame() {
     // EVENT HANDLERS \\
     window.addEventListener('mousemove', moveWeaponOnScreen);
     window.addEventListener('keydown', changeWeapon);
-    document.getElementById('gun').addEventListener('dragstart', disableGunDragBug);
+    //document.getElementById('gun').ondragstart = disableGunDragBug()
+    document.getElementById('gun').addEventListener('dragstart', function () {
+        return
+    });
     document.getElementById('game-border').addEventListener('mouseleave', disableShootOutsideWindowBug);
     gameWindow.addEventListener('click', shootSingle);
     gameWindow.addEventListener('mousedown', holdShooting, true);
     gameWindow.addEventListener('mouseup', holdStopShooting,true);
+
     // EVENT HANDLERS \\
 
 
