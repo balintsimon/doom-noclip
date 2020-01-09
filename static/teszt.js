@@ -14,7 +14,8 @@ let cockMachinegunSound = new Audio("static/sound/machine_gun_clip_in.mp3");
 
 let MusicIsPlaying = false;
 let music = new Audio("static/sound/doom_gate_music.mp3");
-let deathSound = new Audio("static/sound/endgame.mp3");
+let deathMusic = new Audio("static/sound/endgame.mp3");
+let playerDeath = new Audio ("static/sound/player_death.wav");
 
 function playSound(sound, loop){
     sound.loop = loop;
@@ -499,9 +500,13 @@ function endGame() {
     gameWindow.innerHTML = "";
     gameWindow.innerHTML = deathScreen(score);
     console.log("died");
-    stopSound(music);
-    playSound(deathSound, true);
-
+    if (MusicIsPlaying) {
+        stopSound(music);
+        playSound(playerDeath, false);
+        playSound(deathMusic, true);
+    } else {
+        playSound(playerDeath, false);
+    }
     // Add end game dom manipulation
 }
 
