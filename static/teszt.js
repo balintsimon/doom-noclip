@@ -48,7 +48,11 @@ function killEnemy(enemy) {
     if (enemy.dataset.health <= 0) {
         stopEnemyDamage(enemy);
         kills += 1;
-        givePlayerHealth(10);
+        if (Number(enemy.dataset.enemy_type) === 0) {
+            givePlayerHealth(10);
+        } else if (Number(enemy.dataset.enemy_type) === 1) {
+            givePlayerHealth(20);
+        }
         var imageInd = Number(enemy.dataset.enemy_type) + 1;
         enemy.setAttribute('src', `static/images/enemies/enemy-${imageInd}-death.gif`);
         setTimeout(function () {
