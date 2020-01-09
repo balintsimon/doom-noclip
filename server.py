@@ -9,7 +9,7 @@ def index():
 
     if request.method == "POST":
         username = request.form.get('username')
-        new_highscore = request.form.get('highscore')
+        new_highscore = request.form.get('score')
         if data_manager.get_user(username):
             data_manager.create_user(username, new_highscore)
         else:
@@ -35,8 +35,13 @@ def show_high_scores():
                            users=all_high_scores)
 
 
-@app.route('/new-high-score')
+@app.route('/new-high-score', methods=['POST', 'GET'])
 def new_high_score():
+    if request.method == 'POST':
+        player_name = request.form.get('username')
+        score = request.form.get('score')
+        return render_template('high_scores.html')
+
     pass
 
 if __name__ == '__main__':

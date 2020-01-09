@@ -17,3 +17,14 @@ export function gameTemplate() {
             <p id="health">100</p>
     `
 }
+
+export function deathScreen(score) {
+    return `
+    <form action="" method="POST">
+        <label for="username">Player's name:</label>
+        <input id="username" type="text" value="Doom Slayer's name" required>
+        <input id="score" type="hidden" value=score>
+        <button type="submit">Submit player</button>
+    </form>
+    `
+}
