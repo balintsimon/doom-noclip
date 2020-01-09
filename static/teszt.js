@@ -50,7 +50,7 @@ function checkEnemyKill(enemy) {
         setTimeout(function () {
             enemy.style.visibility = "hidden"
             setTimeout(function () {
-            enemy.removeAttribute('src')
+                enemy.removeAttribute('src')
             },1000)
 
         },1710)
