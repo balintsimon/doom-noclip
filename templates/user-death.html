@@ -5,23 +5,31 @@
     <title>High scores</title>
     <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
     <link href="/static/teszt.css" type="text/css" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 </head>
 <body>
     <div class="game-border" id="game-border"  draggable="false">
-        <div align="center" class="game-display" id="teszt">
-            <p>{{ username }}'s score:</p>
-            <p>{{ new_highscore }}</p>
-            {% if new_highscore > users[0]['high_score'] %}
-                <p>You are the Doomslayer!</p>
-            {% elif new_highscore == users[0]['high_score'] %}
-                <p>You matched the high score!</p>
-            {% elif new_highscore > users[4]['high_score'] %}
-                <p>You missed the top 5.</p>
-            {% else %}
-                <p></p>
-            {% endif %}
+        <div align="center" class="high_scores" id="high_scores">
+            <table class="table table-borderless table-dark" id="user_new_high">
+                <tr><td align="center">{{ username }}'s score: {{ new_highscore }}</td></tr>
+                <tr><td align="center">
+                    {% if new_highscore > users[0]['high_score'] %}
+                        You are the DOOMSLAYER!
+                    {% elif new_highscore == users[0]['high_score'] %}
+                        You matched the high score!
+                    {% elif (new_highscore|int) >= (users[4]['high_score']|int) %}
+                        You are in the top 5
+                    {% else %}
+                        You missed the top 5
+                    {% endif %}
+                </td></tr>
+            </table>
 
-            <table>
+
+            <table class="table table-borderless table-dark" id="high_scores_table_death">
                 {%  for user in users  %}
                     <tr>
                         <td bgcolor="white">{{ user['name'] }} {{ user['high_score'] }}</td>
@@ -29,7 +37,7 @@
                 {% endfor %}
             </table>
             <form action="{{ url_for('index') }}">
-                <button type="submit" id="back-to-main" class="btn btn-light btn-lg" >Back to main page</button>
+                <button type="submit" id="back-to-main" class="btn btn-warning" >Back to main page</button>
             </form>
         </div>
     </div>

@@ -181,3 +181,55 @@ body{
     font-size: 50px;
     cursor: pointer;
 }
+
+#high_scores {
+    width: 982px;
+    height: 560px;
+    transform: translate(-50%, -50%);
+    position: absolute;
+    top: 47%;
+    left: 41.7%;
+    padding: 20px;
+    overflow: hidden;
+    border-radius: 5% / 80%;
+    box-shadow: 1px 1px 20px;
+    border: 6px solid black;
+    background-image: url("http://eskipaper.com/images/doom-wallpaper-1.jpg");
+    background-size: cover;
+    opacity: 1;
+}
+
+#back-to-main {
+    position: absolute;
+    top: 80%;
+    left: 80%;
+    border: 1px solid black;
+    opacity: 0.8;
+}
+
+#high_scores_table {
+    width: 200px;
+    opacity: 0.8;
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%);
+    top: 10%;
+}
+
+#high_scores_table_death {
+    width: 200px;
+    opacity: 0.8;
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%);
+    top: 30%;
+    color: black;
+}
+
+#user_new_high {
+    width: 200px;
+    opacity: 0.8;
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%);
+}

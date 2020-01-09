@@ -5,8 +5,6 @@ app = Flask(__name__)
 
 @app.route('/', methods=['POST', 'GET'])
 def index():
-    all_high_scores = data_manager.get_highscores()
-
     if request.method == "POST":
         username = request.form.get('username')
         player_score = int(request.form.get('score'))
@@ -23,6 +21,7 @@ def index():
                                username=username,
                                new_highscore=player_score)
 
+    all_high_scores = data_manager.get_highscores()
     return render_template('index.html',
                            users=all_high_scores)
 
