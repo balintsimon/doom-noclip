@@ -1,21 +1,11 @@
 import {menuTemplate, gameTemplate, deathScreen} from "./dom.js";
 
-const body = document.getElementById('teszt'); // ezek kellenek?
-let machineGunHitIntervalTimer = false;
-
 //audio
-let kills = 0;
-let score = 0;
-let pistolSound = new Audio("static/sound/dspistol.wav");
-let reloadPistolSound = new Audio("static/sound/reload_gun2.mp3");
-let machinegunSound = new Audio("static/sound/gun2.mp3");
-let reloadMachinegunSound = new Audio("static/sound/gun_cock_slow.mp3");
-let cockMachinegunSound = new Audio("static/sound/machine_gun_clip_in.mp3");
-
-let MusicIsPlaying = false;
+let kills;
+let score;
+let MusicIsPlaying;
 let music = new Audio("static/sound/doom_gate_music.mp3");
-let deathMusic = new Audio("static/sound/endgame.mp3");
-let playerDeath = new Audio ("static/sound/player_death.wav");
+let machinegunSound = new Audio("static/sound/gun2.mp3");
 
 function playSound(sound, loop){
     sound.loop = loop;
@@ -29,8 +19,7 @@ function stopSound(sound) {
 }
 
 //music play
-let playMusicButton = document.querySelector(".music-button");
-playMusicButton.addEventListener("click", toggleMusic);
+
 
 function toggleMusic() {
     if (MusicIsPlaying) {
@@ -128,6 +117,7 @@ function holdShooting() {
 }
 
 function shootSingle() {
+    let pistolSound = new Audio("static/sound/dspistol.wav");
     if (gunStats[gun].fire_type === 'mousedown' || reloading ) {return}
     const pistol = document.querySelector('.gun');
 
@@ -231,27 +221,30 @@ function checkEmptyPositions() {
 
 function insertEnemyPicture(positions) {
     const enemyStats = [
-        {damage : 1, health : 30, missChance : 20, hitRate: 400, hpGiven: 10, scoreValue: 1},
-        {damage: 2, health: 120, missChance: 10, hitRate: 800, hpGiven: 20, scoreValue: 2},
-        {damage: 3, health : 140, missChance: 30, hitRate: 600, hpGiven: 30, scoreValue: 4},
-        {damage: 200, health: 150, missChance: 10, hitRate: 3000, hpGiven: 50, scoreValue: 100}
+        {damage : 1, health : 30, missChance : 20, hitRate: 400, hpGiven: 10, scoreValue: 1}, //Heavy Weapon Dude
+        {damage: 2, health: 120, missChance: 10, hitRate: 800, hpGiven: 20, scoreValue: 2}, // Pain elemental
+        {damage: 3, health : 140, missChance: 30, hitRate: 600, hpGiven: 30, scoreValue: 4}, // Cacodemon
+        {damage: 200, health: 150, missChance: 10, hitRate: 3000, hpGiven: 50, scoreValue: 100} // Baron of Hell
         ];
-    const randomEnemyIndex = Math.floor(Math.random() * enemyStats.length);
+    const randomEnemyType = Math.floor(Math.random() * enemyStats.length);
     const randomIndex = Math.floor(Math.random() * positions.length);
-    positions[randomIndex].ondragstart = function() { return false; };
-    enemies.push(positions[randomIndex]);
-    positions[randomIndex].style.visibility = "visible";
+    let enemyToPlace = positions[randomIndex];
+
+    enemyToPlace.ondragstart = function() { return false; }; // is this code really necessary?
+    enemies.push(enemyToPlace); // which "enemies" is this line talks about?
+    enemyToPlace.style.visibility = "visible";
     SwitchDamageTypeOnWeaponSwitch(gun);
-    CreateEnemyMovement(positions[randomIndex]);
-    let imageInd = (randomEnemyIndex+1);
-    positions[randomIndex].setAttribute('src', `/static/images/enemies/enemy-${imageInd}-walking.gif`);
-    positions[randomIndex].setAttribute('data-health', enemyStats[randomEnemyIndex].health);
-    positions[randomIndex].setAttribute('data-miss_chance', enemyStats[randomEnemyIndex].missChance);
-    positions[randomIndex].setAttribute('data-enemy_type', randomEnemyIndex);
-    positions[randomIndex].setAttribute('data-damage',enemyStats[randomEnemyIndex].damage);
-    positions[randomIndex].setAttribute('data-hit_rate',enemyStats[randomEnemyIndex].hitRate);
-    positions[randomIndex].setAttribute('data-hp_give',enemyStats[randomEnemyIndex].hpGiven);
-    positions[randomIndex].setAttribute('data-add_score',enemyStats[randomEnemyIndex].scoreValue);
+    CreateEnemyMovement(enemyToPlace);
+    let imageInd = (randomEnemyType+1);
+
+    enemyToPlace.setAttribute('src', `/static/images/enemies/enemy-${imageInd}-walking.gif`);
+    enemyToPlace.setAttribute('data-health', enemyStats[randomEnemyType].health);
+    enemyToPlace.setAttribute('data-miss_chance', enemyStats[randomEnemyType].missChance);
+    enemyToPlace.setAttribute('data-enemy_type', randomEnemyType);
+    enemyToPlace.setAttribute('data-damage',enemyStats[randomEnemyType].damage);
+    enemyToPlace.setAttribute('data-hit_rate',enemyStats[randomEnemyType].hitRate);
+    enemyToPlace.setAttribute('data-hp_give',enemyStats[randomEnemyType].hpGiven);
+    enemyToPlace.setAttribute('data-add_score',enemyStats[randomEnemyType].scoreValue);
     //enemies = positions
     return displayEnemies();
 }
@@ -380,6 +373,7 @@ function machineGunMouseOut() {
 }
 
 function reloadPistol() {
+    let reloadPistolSound = new Audio("static/sound/reload_gun2.mp3");
     document.getElementById('bullet_indicator').innerText = '';
     document.getElementById('bullet_indicator').innerHTML = '<i class="fas fa-sync-alt"></i>';
     playSound(reloadPistolSound, false);
@@ -395,6 +389,8 @@ function reloadPistol() {
 }
 
 function reloadMachinegun() {
+    let reloadMachinegunSound = new Audio("static/sound/gun_cock_slow.mp3");
+    let cockMachinegunSound = new Audio("static/sound/machine_gun_clip_in.mp3");
     const machineGun = document.querySelector('.gun');
     // machineGun.classList.toggle('shooting');
     machineGun.classList.toggle('machine-gun-reload');
@@ -493,6 +489,9 @@ function endGame() {
     gameWindow.classList.toggle('play-game');
     gameWindow.classList.toggle('death-screen');
     gameWindow.innerHTML = deathScreen(score);
+
+    let deathMusic = new Audio("static/sound/endgame.mp3");
+    let playerDeath = new Audio ("static/sound/player_death.wav");
     if (MusicIsPlaying) {
         stopSound(music);
         playSound(playerDeath, false);
@@ -504,6 +503,10 @@ function endGame() {
 }
 
 function displayMenu() {
+    let playMusicButton = document.querySelector(".music-button");
+    playMusicButton.addEventListener("click", toggleMusic);
+    MusicIsPlaying = false;
+
     const tvScreen = document.querySelector('.game-display');
     tvScreen.classList.toggle('menu');
     tvScreen.innerHTML = "";
