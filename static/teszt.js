@@ -227,7 +227,7 @@ function checkEmptyPositions() {
 }
 
 function insertEnemyPicture(positions) {
-    const enemyStats = [{damage : 1, health : 100, missChance : 20},{damage: 2, health: 120, missChance: 10}];
+    const enemyStats = [{damage : 1, health : 100, missChance : 20},{damage: 2, health: 120, missChance: 10}, {damage: 3, health : 140, missChance: 30}];
     const randomEnemyIndex = Math.floor(Math.random() * enemyStats.length);
     const randomIndex = Math.floor(Math.random() * positions.length);
     positions[randomIndex].ondragstart = function() { return false; };
