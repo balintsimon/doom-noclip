@@ -193,8 +193,6 @@ function stopEnemyDamage(enemy) {
 function damageEnemy(actual_enemy, damage) {
     if ( reloading){try{clearInterval(actual_enemy.dataset.hit_interval)}catch {}}
     let actual_hp = Number(actual_enemy.dataset.health);
-    console.log(actual_enemy);
-    console.log(actual_hp);
     if ( actual_hp > 0){
         let new_hp = actual_hp - damage;
         let id = Number(actual_enemy.dataset.enemy_type)+1;
@@ -203,7 +201,6 @@ function damageEnemy(actual_enemy, damage) {
         actual_enemy.setAttribute('data-health', new_hp);
         killEnemy(actual_enemy)
     }
-    //console.log(actual_enemy + " kapott HPja: " + new_hp)
 }
 
 function displayEnemies() {
@@ -219,7 +216,6 @@ function displayEnemies() {
 function stopSpawnEnemies() {
     clearTimeout(enemyTimeout);
     enemyTimeout = false;
-    console.log('Enemy spawning disabled');
     for (let enemy of document.querySelectorAll('.enemy')){
         (enemy.getAttribute('src') ? clearInterval(enemy.dataset.interval) : {} )
     }
@@ -245,7 +241,6 @@ function insertEnemyPicture(positions) {
     enemies.push(positions[randomIndex]);
     positions[randomIndex].style.visibility = "visible";
     SwitchDamageTypeOnWeaponSwitch(gun);
-    console.log('Moving');
     CreateEnemyMovement(positions[randomIndex]);
     var imageInd = (randomEnemyIndex+1);
     positions[randomIndex].setAttribute('src', `/static/images/enemies/enemy-${imageInd}-walking.gif`);
@@ -287,9 +282,9 @@ function damagePlayer(damage, actual_enemy) {
     document.getElementById('gun').setAttribute('data-hp', currentHealth);
     actualHP = Number(document.getElementById('gun').dataset.hp);
     document.getElementById('health').innerText =
-        `HP: ${actualHP}
-        Kills: ${kills}
-        Score: ${score}`;
+        `${actualHP}`;
+        // Kills: ${kills}
+        // Score: ${score}`;
     if ( actualHP <= 0 ){
         endGame()
     }
@@ -298,7 +293,6 @@ function damagePlayer(damage, actual_enemy) {
 function HitEnemyByMachineGun(event) {
     let actual_enemy = event.target;
     if (shooting === true) {
-        console.log(actual_enemy.dataset.health);
         MachineGunSpreadFireHit(actual_enemy, gun);
         killEnemy(actual_enemy);
     } else if (shooting === false) {
@@ -317,9 +311,8 @@ function changeWeapon(e) {
             switchGun()
         }
     } catch {}
-    console.log("Key : " + e.key )
     if (e.key === "r"){
-        if ( gunStats[gun].clip == gunStats[gun].max_clip){return}
+        if ( gunStats[gun].clip === gunStats[gun].max_clip){return}
         if (gunStats[gun].fire_type === "click" ){
             reloadPistol()
         }else{
@@ -380,7 +373,6 @@ function hitEnemyByPistol(event) {
 }
 
 function machineGunMouseOut() {
-    console.log(this);
     try {
         for (let enemy of enemies){
             clearInterval(enemy.dataset.hit_interval);
@@ -389,10 +381,11 @@ function machineGunMouseOut() {
 }
 
 function reloadPistol() {
-    document.getElementById('bullet_indicator').innerText = 'Reloading';
+    document.getElementById('bullet_indicator').innerText = '';
+    document.getElementById('bullet_indicator').innerHTML = '<i class="fas fa-sync-alt"></i>';
     playSound(reloadPistolSound, false);
     document.getElementById('gun').setAttribute('src', '/static/images/pistolReload.gif');
-    reloading = true
+    reloading = true;
     setTimeout(() => {
         document.getElementById('gun').setAttribute('src', '/static/images/pistol.gif');
         document.getElementById('teszt').addEventListener('click', shootSingle);
@@ -409,7 +402,8 @@ function reloadMachinegun() {
     reloading = true;
     stopShooting();
     gunStats[gun].clip = gunStats[gun].max_clip;
-    document.getElementById('bullet_indicator').innerText = 'Reloading';
+    document.getElementById('bullet_indicator').innerText = '';
+    document.getElementById('bullet_indicator').innerHTML = '<i class="fas fa-sync-alt"></i>';
     playSound(reloadMachinegunSound,false);
     playSound(cockMachinegunSound, false);
 
@@ -498,7 +492,6 @@ function endGame() {
     try{stopShooting()} catch {}
     gameWindow.innerHTML = "";
     gameWindow.innerHTML = deathScreen(score);
-    console.log("died");
     if (MusicIsPlaying) {
         stopSound(music);
         playSound(playerDeath, false);
@@ -509,7 +502,7 @@ function endGame() {
     // Add end game dom manipulation
 }
 
-function displayMenu() { // TODO: add eventlistener to the leaderboard button at the end of this function!
+function displayMenu() {
     const tvScreen = document.querySelector('.game-display');
     tvScreen.classList.toggle('menu');
     tvScreen.innerHTML = "";

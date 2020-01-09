@@ -5,9 +5,7 @@ body{
 }
 
 #bullet_indicator{
-    font-family: 'Consolas', 'Deja Vu Sans Mono', 'Bitstream Vera Sans Mono', monospace;
-    font-size: 36px;
-    text-shadow: 2px 2px #000000;
+    padding-left: 10px;
 }
 
 .game-display {
@@ -247,4 +245,32 @@ body{
     left: 50%;
     top: 70%;
     transform: translate(-50%, -50%);
+}
+
+.player-health {
+    position: absolute;
+    height: 50px;
+    width: 50px;
+    display: flex;
+    color: #f7f7f7f7;
+    font-weight: bold;
+    font-size: 30px;
+    top: 2%;
+    left: 3%;
+}
+
+.health-logo {
+    padding-right: 5px;
+}
+
+.player-ammo {
+    position: absolute;
+    color: #f7f7f7f7;
+    height: 50px;
+    width: 50px;
+    font-weight: bold;
+    font-size: 30px;
+    top: 2%;
+    left: 90%;
+    display: flex;
 }

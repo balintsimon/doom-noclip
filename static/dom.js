@@ -13,8 +13,14 @@ export function gameTemplate() {
                 <img class="enemy enemy-2" style="visibility: hidden">
                 <img class="enemy enemy-3" style="visibility: hidden">
             </div>
-            <p id="bullet_indicator">30</p>
-            <p id="health">100</p>
+            <div class="player-ammo">
+                <img src="/static/images/tbullet.png">
+                <p id="bullet_indicator">30</p>
+            </div>
+            <div class="player-health">
+                <img class="health-logo" src="/static/images/heart-logo.png">
+                <p id="health">100</p>
+            </div>
     `
 }
 
