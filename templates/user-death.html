@@ -16,10 +16,8 @@
             <table class="table table-borderless table-dark" id="user_new_high">
                 <tr><td align="center">{{ username }}'s score: {{ new_highscore }}</td></tr>
                 <tr><td align="center">
-                    {% if new_highscore > users[0]['high_score'] %}
+                    {% if new_highscore == users[0]['high_score'] %}
                         You are the DOOMSLAYER!
-                    {% elif new_highscore == users[0]['high_score'] %}
-                        You matched the high score!
                     {% elif users | length > 4 %}
                             {% if (new_highscore|int) > (users[4]['high_score']|int) %}
                                 You are in the top 5
