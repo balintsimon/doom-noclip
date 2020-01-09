@@ -20,8 +20,10 @@
                         You are the DOOMSLAYER!
                     {% elif new_highscore == users[0]['high_score'] %}
                         You matched the high score!
-                    {% elif (new_highscore|int) >= (users[4]['high_score']|int) %}
-                        You are in the top 5
+                    {% elif users | length > 4 %}
+                            {% if (new_highscore|int) >= (users[4]['high_score']|int) %}
+                                You are in the top 5
+                            {% endif %}
                     {% else %}
                         You missed the top 5
                     {% endif %}
