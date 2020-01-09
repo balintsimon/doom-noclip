@@ -5,6 +5,7 @@ let machineGunHitIntervalTimer = false;
 
 //audio
 let kills = 0;
+let score = 0;
 let pistolSound = new Audio("static/sound/dspistol.wav");
 let reloadPistolSound = new Audio("static/sound/reload_gun2.mp3");
 let machinegunSound = new Audio("static/sound/gun2.mp3");
@@ -48,6 +49,7 @@ function killEnemy(enemy) {
     if (enemy.dataset.health <= 0) {
         stopEnemyDamage(enemy);
         kills += 1;
+        score += Number(enemy.dataset.add_score);
         givePlayerHealth(Number(enemy.dataset.hp_give));
         let imageInd = Number(enemy.dataset.enemy_type) + 1;
         enemy.setAttribute('src', `static/images/enemies/enemy-${imageInd}-death.gif`);
@@ -224,9 +226,9 @@ function checkEmptyPositions() {
 
 function insertEnemyPicture(positions) {
     const enemyStats = [
-        {damage : 1, health : 30, missChance : 20, hitRate: 400, hpGiven: 10},
-        {damage: 2, health: 120, missChance: 10, hitRate: 800, hpGiven: 20},
-        {damage: 3, health : 140, missChance: 30, hitRate: 600, hpGiven: 30}];
+        {damage : 1, health : 30, missChance : 20, hitRate: 400, hpGiven: 10, scoreValue: 1},
+        {damage: 2, health: 120, missChance: 10, hitRate: 800, hpGiven: 20, scoreValue: 2},
+        {damage: 3, health : 140, missChance: 30, hitRate: 600, hpGiven: 30, scoreValue: 4}];
     const randomEnemyIndex = Math.floor(Math.random() * enemyStats.length);
     const randomIndex = Math.floor(Math.random() * positions.length);
     positions[randomIndex].ondragstart = function() { return false; };
@@ -243,6 +245,7 @@ function insertEnemyPicture(positions) {
     positions[randomIndex].setAttribute('data-damage',enemyStats[randomEnemyIndex].damage);
     positions[randomIndex].setAttribute('data-hit_rate',enemyStats[randomEnemyIndex].hitRate);
     positions[randomIndex].setAttribute('data-hp_give',enemyStats[randomEnemyIndex].hpGiven);
+    positions[randomIndex].setAttribute('data-add_score',enemyStats[randomEnemyIndex].scoreValue);
     //enemies = positions
     return displayEnemies();
 }
@@ -272,7 +275,8 @@ function damagePlayer(damage) {
     actualHP = Number(document.getElementById('gun').dataset.hp);
     document.getElementById('health').innerText =
         `HP: ${actualHP}
-        Kills: ${kills}`;
+        Kills: ${kills}
+        Score: ${score}`;
     if ( actualHP <= 0 ){
         endGame()
     }
@@ -432,6 +436,7 @@ function disableShootOutsideWindowBug() {
 
 function startGame() {
     kills = 0;
+    score = 0;
     const gameWindow = document.querySelector('.game-display');
     gameWindow.classList.toggle('menu');
     gameWindow.innerHTML = "";
