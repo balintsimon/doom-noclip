@@ -51,9 +51,7 @@ function killEnemy(enemy) {
         stopEnemyDamage(enemy);
         kills += 1;
         score += Number(enemy.dataset.add_score);
-        let id = Number(enemy.dataset.enemy_type)+1;
-        let newSound = new Audio( `static/sound/enemy_sounds/enemy_${id}_death.wav`)
-        playSound(newSound, false);
+        createEnemySound(enemy, "death")
         givePlayerHealth(Number(enemy.dataset.hp_give));
         let imageInd = Number(enemy.dataset.enemy_type) + 1;
         enemy.setAttribute('src', `static/images/enemies/enemy-${imageInd}-death.gif`);
@@ -196,13 +194,20 @@ function damageEnemy(actual_enemy, damage) {
     console.log(actual_hp);
     if ( actual_hp > 0){
         let new_hp = actual_hp - damage;
-        let id = Number(actual_enemy.dataset.enemy_type)+1;
+        /*let id = Number(actual_enemy.dataset.enemy_type)+1;
         let newSound =new Audio( `static/sound/enemy_sounds/enemy_${id}_hit.wav`);
-        playSound(newSound, false);
+        playSound(newSound, false);*/
+        createEnemySound(actual_enemy, "hit")
         actual_enemy.setAttribute('data-health', new_hp);
         killEnemy(actual_enemy)
     }
     //console.log(actual_enemy + " kapott HPja: " + new_hp)
+}
+
+function createEnemySound(enemy,action) {
+        let id = Number(enemy.dataset.enemy_type)+1;
+        let newSound =new Audio( `static/sound/enemy_sounds/enemy_${id}_${action}.wav`);
+        playSound(newSound,false)
 }
 
 function displayEnemies() {
@@ -281,9 +286,7 @@ function CreateEnemyMovement(actual_enemy) {
 function damagePlayer(damage, actual_enemy) {
     let actualHP = Number(document.getElementById('gun').dataset.hp);
     const currentHealth = actualHP - damage;
-    let id = Number(actual_enemy.dataset.enemy_type)+1;
-    let newSound =new Audio( `static/sound/enemy_sounds/enemy_${id}_attack.wav`);
-    playSound(newSound, false);
+    createEnemySound(actual_enemy, "attack")
     document.getElementById('gun').setAttribute('data-hp', currentHealth);
     actualHP = Number(document.getElementById('gun').dataset.hp);
     document.getElementById('health').innerText =
