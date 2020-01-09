@@ -245,8 +245,9 @@ function CreateEnemyMovement(actual_enemy) {
         actual_enemy.setAttribute('src', `/static/images/enemies/enemy-${imageInd}-attack.gif`);
         let interval = setInterval(
             function () {
+                let chance = (Math.floor(Math.random() * 100));
                 if (actual_enemy.dataset.health > 0){
-                    (Math.floor(Math.random() * 100) <= actual_enemy.dataset.miss_chance) ? {} : damagePlayer(actual_enemy.dataset.damage)
+                    (chance <= Number(actual_enemy.dataset.miss_chance)) ? console.log("missed") : damagePlayer(actual_enemy.dataset.damage);
                 }else{
                     clearInterval(interval)
                 }
