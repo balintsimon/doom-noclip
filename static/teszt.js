@@ -1,4 +1,4 @@
-import {menuTemplate, gameTemplate} from "./dom.js";
+import {menuTemplate, gameTemplate, deathScreen} from "./dom.js";
 
 const body = document.getElementById('teszt'); // ezek kellenek?
 let machineGunHitIntervalTimer = false;
