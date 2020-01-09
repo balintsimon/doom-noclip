@@ -43,6 +43,7 @@ def get_highscores(cursor):
     SELECT name, high_score
     FROM users
     ORDER BY high_score DESC
+    LIMIT 5
     """)
 
     users = cursor.fetchall()

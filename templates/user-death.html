@@ -11,6 +11,16 @@
         <div align="center" class="game-display" id="teszt">
             <p>{{ username }}'s score:</p>
             <p>{{ new_highscore }}</p>
+            {% if new_highscore > users[0]['high_score'] %}
+                <p>You are the Doomslayer!</p>
+            {% elif new_highscore == users[0]['high_score'] %}
+                <p>You matched the high score!</p>
+            {% elif new_highscore > users[4]['high_score'] %}
+                <p>You missed the top 5.</p>
+            {% else %}
+                <p></p>
+            {% endif %}
+
             <table>
                 {%  for user in users  %}
                     <tr>

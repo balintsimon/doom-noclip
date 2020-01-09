@@ -442,7 +442,7 @@ function startGame() {
         element.style.userSelect = 'none';
     }
     SwitchDamageTypeOnWeaponSwitch(gun);
-    document.getElementById('gun').setAttribute('data-hp', 1);
+    document.getElementById('gun').setAttribute('data-hp', 100);
     damagePlayer(0);
     displayEnemies();
 
