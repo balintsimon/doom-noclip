@@ -485,7 +485,7 @@ function endGame() {
     // EVENT HANDLER REMOVE \\
     try{stopShooting()} catch {}
     gameWindow.innerHTML = "";
-    gameWindow.innerHTML = deathScreen(kills);
+    gameWindow.innerHTML = deathScreen(score);
     console.log("died");
 
     // Add end game dom manipulation
