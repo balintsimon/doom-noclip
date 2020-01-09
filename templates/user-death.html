@@ -23,9 +23,11 @@
                     {% elif users | length > 4 %}
                             {% if (new_highscore|int) >= (users[4]['high_score']|int) %}
                                 You are in the top 5
+                            {% else %}
+                                You missed the top 5
                             {% endif %}
                     {% else %}
-                        You missed the top 5
+                        You are in the top 5
                     {% endif %}
                 </td></tr>
             </table>
