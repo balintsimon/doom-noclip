@@ -490,6 +490,8 @@ function endGame() {
     // EVENT HANDLER REMOVE \\
     try{stopShooting()} catch {}
     gameWindow.innerHTML = "";
+    gameWindow.classList.toggle('play-game');
+    gameWindow.classList.toggle('death-screen');
     gameWindow.innerHTML = deathScreen(score);
     if (MusicIsPlaying) {
         stopSound(music);

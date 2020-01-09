@@ -30,11 +30,11 @@ export function deathScreen(score) {
         <div class="input-group mb-3">
             <div id="user_name_input_field" class="input-group-prepend">
                 <span class="input-group-text" id="basic-addon1">Player's name:</span>
-                <input id="username" name="username" type="text" class="form-control" placeholder="Player's name" aria-label="Player's name" aria-describedby="basic-addon1" required>
+                <input autocomplete="off" id="username" name="username" type="text" class="form-control" placeholder="Player's name" aria-label="Player's name" aria-describedby="basic-addon1" required>
                 <input id="score" name="score" type="hidden" value=${score}>
             </div>
         </div>      
-        <button id="player_name_input_submit_button" type="submit">Submit player</button>
+        <button class="btn btn-dark" id="player_name_input_submit_button" type="submit">Submit player</button>
     </form>
     `
 }

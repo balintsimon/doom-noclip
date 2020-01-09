@@ -274,3 +274,21 @@ body{
     left: 90%;
     display: flex;
 }
+
+.game-display.death-screen {
+    background-image: url("/static/images/game-over.gif");
+    background-size: cover;
+    background-position: bottom;
+}
+
+.input-group-text {
+    background-color: #222;
+    color: #f7f7f7f7;
+    font-weight: bold;
+}
+
+btn btn-dark {
+    background-color: #222;
+    color: #f7f7f7f7;
+    font-weight: bold;
+}
