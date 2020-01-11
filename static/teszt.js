@@ -147,7 +147,7 @@ function shootSingle() {
 function shootContinous() {
     if (isReloading) {return}
     const machineGun = document.getElementById('gun');
-    machineGun.setAttribute('src', "static/" + gunStats[gun].weapon_image + ".gif");
+    machineGun.setAttribute('src', `static/${gunStats[gun].weapon_image}.gif`);
     machineGun.classList.toggle('isShooting');
     isShooting = true;
 
@@ -275,9 +275,8 @@ function damagePlayer(damage, actual_enemy) {
     playSound(newSound, false);
     document.getElementById('gun').setAttribute('data-hp', currentHealth);
     actualHP = Number(document.getElementById('gun').dataset.hp);
-    document.getElementById('health').innerText =
-        `${actualHP}`;
-    if ( actualHP <= 0 ){
+    document.getElementById('health').innerText = `${actualHP}`;
+    if ( actualHP <= 0 ) {
         endGame()
     }
 }
